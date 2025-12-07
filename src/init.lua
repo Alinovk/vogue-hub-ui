@@ -1,17 +1,17 @@
 --[[
     ╔══════════════════════════════════════════════════════════════════════╗
     ║                        VOGUE HUB UI LIBRARY                          ║
-    ║                            Version 1.0.0                             ║
+    ║                            Version 1.0.1                             ║
     ║                                                                      ║
     ║  Минималистичная и элегантная UI библиотека для Roblox Luau        ║
     ║                                                                      ║
-    ║  GitHub: https://github.com/yourusername/vogue-hub-ui               ║
+    ║  GitHub: https://github.com/Alinovk/vogue-hub-ui                    ║
     ║  License: MIT                                                        ║
-    ║  Author: Your Name                                                   ║
     ║                                                                      ║
-    ║  Использование:                                                      ║
-    ║  local Lib = loadstring(game:HttpGet("RAW_GITHUB_URL"))()           ║
-    ║  local Window = Lib:CreateWindow({Title = "My Hub"})                ║
+    ║  Changelog v1.0.1:                                                   ║
+    ║  - Исправлен баг минимизации окна                                   ║
+    ║  - Улучшены анимации сворачивания/разворачивания                    ║
+    ║  - Добавлен ClipsDescendants для корректного отображения            ║
     ║                                                                      ║
     ╚══════════════════════════════════════════════════════════════════════╝
 ]]
@@ -22,7 +22,7 @@
 
 local VogueLib = {}
 VogueLib.__index = VogueLib
-VogueLib.Version = "1.0.0"
+VogueLib.Version = "1.0.1"
 
 -- ════════════════════════════════════════════════════════════════════════
 -- СЕРВИСЫ
@@ -122,7 +122,7 @@ function VogueLib:CreateWindow(config)
     })
     
     -- ════════════════════════════════════════════════════════════════════
-    -- ГЛАВНЫЙ ФРЕЙМ
+    -- ГЛАВНЫЙ ФРЕЙМ (ИСПРАВЛЕНО: ДОБАВЛЕН ClipsDescendants)
     -- ════════════════════════════════════════════════════════════════════
     
     local MainFrame = Create("Frame", {
@@ -131,6 +131,7 @@ function VogueLib:CreateWindow(config)
         Position = UDim2.new(0.5, -windowSize.X.Offset/2, 0.5, -windowSize.Y.Offset/2),
         BackgroundColor3 = Theme.Background,
         BorderSizePixel = 0,
+        ClipsDescendants = true, -- ← ИСПРАВЛЕНИЕ: Обрезает содержимое при минимизации
         Parent = ScreenGui
     })
     AddCorner(MainFrame, 8)
@@ -188,7 +189,10 @@ function VogueLib:CreateWindow(config)
         Parent = Header
     })
     
-    -- Кнопка закрытия
+    -- ════════════════════════════════════════════════════════════════════
+    -- КНОПКА ЗАКРЫТИЯ
+    -- ════════════════════════════════════════════════════════════════════
+    
     local CloseButton = Create("TextButton", {
         Name = "CloseButton",
         Size = UDim2.new(0, 30, 0, 30),
@@ -215,7 +219,10 @@ function VogueLib:CreateWindow(config)
         ScreenGui:Destroy()
     end)
     
-    -- Кнопка минимизации
+    -- ════════════════════════════════════════════════════════════════════
+    -- КНОПКА МИНИМИЗАЦИИ (ИСПРАВЛЕНО)
+    -- ════════════════════════════════════════════════════════════════════
+    
     local MinimizeButton = Create("TextButton", {
         Name = "MinimizeButton",
         Size = UDim2.new(0, 30, 0, 30),
@@ -237,15 +244,6 @@ function VogueLib:CreateWindow(config)
     
     MinimizeButton.MouseLeave:Connect(function()
         Tween(MinimizeButton, {TextColor3 = Theme.TextDark}, 0.2)
-    end)
-    
-    MinimizeButton.MouseButton1Click:Connect(function()
-        Minimized = not Minimized
-        if Minimized then
-            Tween(MainFrame, {Size = UDim2.new(0, windowSize.X.Offset, 0, 50)}, 0.3)
-        else
-            Tween(MainFrame, {Size = OriginalSize}, 0.3)
-        end
     end)
     
     -- ════════════════════════════════════════════════════════════════════
@@ -289,6 +287,46 @@ function VogueLib:CreateWindow(config)
         ClipsDescendants = true,
         Parent = MainFrame
     })
+    
+    -- ════════════════════════════════════════════════════════════════════
+    -- ЛОГИКА МИНИМИЗАЦИИ (ИСПРАВЛЕНО)
+    -- ════════════════════════════════════════════════════════════════════
+    
+    MinimizeButton.MouseButton1Click:Connect(function()
+        Minimized = not Minimized
+        
+        if Minimized then
+            -- ═══ СВОРАЧИВАНИЕ ═══
+            MinimizeButton.Text = "+"
+            
+            -- Анимация сворачивания
+            Tween(MainFrame, {
+                Size = UDim2.new(0, windowSize.X.Offset, 0, 50)
+            }, 0.3, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut)
+            
+            -- Скрываем элементы с задержкой для плавности
+            task.spawn(function()
+                task.wait(0.15)
+                TabBar.Visible = false
+                TabDivider.Visible = false
+                ContentContainer.Visible = false
+            end)
+            
+        else
+            -- ═══ РАЗВОРАЧИВАНИЕ ═══
+            MinimizeButton.Text = "—"
+            
+            -- Показываем элементы ДО анимации
+            TabBar.Visible = true
+            TabDivider.Visible = true
+            ContentContainer.Visible = true
+            
+            -- Анимация разворачивания
+            Tween(MainFrame, {
+                Size = OriginalSize
+            }, 0.3, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut)
+        end
+    end)
     
     -- ════════════════════════════════════════════════════════════════════
     -- ДРАГ ФУНКЦИОНАЛ
