@@ -4,7 +4,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Roblox](https://img.shields.io/badge/Roblox-Luau-blue.svg)](https://luau-lang.org/)
-[![Version](https://img.shields.io/badge/version-1.0.0-green.svg)](https://github.com/yourusername/vogue-hub-ui)
+[![Version](https://img.shields.io/badge/version-1.0.0-green.svg)](https://github.com/Alinovk/vogue-hub-ui)
 
 **Минималистичная и элегантная UI библиотека для Roblox exploits**
 
@@ -186,5 +186,6 @@ v1.0.0 (2024-01-XX)
 Сделано с ❤️ для Roblox сообщества
 
 ⬆ Наверх
+
 
 </div> ```
