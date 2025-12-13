@@ -4,7 +4,7 @@
 ]]
 
 -- Load library
-local VogueLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/yourusername/vogue-hub-ui/main/src/init.lua"))()
+local VogueLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/Alinovk/vogue-hub-ui/main/src/init.lua"))()
 
 -- Create window
 local Window = VogueLib:CreateWindow({
