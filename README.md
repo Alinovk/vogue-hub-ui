@@ -206,9 +206,9 @@ If you liked the library, give it a ⭐ on GitHub!
 
 ## 📞 Contacts
 
-- GitHub Issues: [Create Issue](https://github.com/yourusername/vogue-hub-ui/issues)
-- Discord: YourDiscord#0000
-- Email: your.email@example.com
+- GitHub Issues: [Create Issue](https://github.com/alinovk/vogue-hub-ui/issues)
+- Discord: Justfakefake
+- Email: allingro452@gmail.com
 
 ---
 
@@ -241,4 +241,5 @@ Made with ❤️ for the Roblox community
 [⬆ Back to Top](#-vogue-hub-ui-library)
 
 </div>
+
 
