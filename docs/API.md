@@ -1,6 +1,6 @@
 # 📖 API Documentation
 
-Complete documentation for VOGUE HUB UI Library v2.0.0
+Complete documentation for VOGUE HUB UI Library v3.0.0
 
 ## Table of Contents
 
@@ -27,24 +27,6 @@ Complete documentation for VOGUE HUB UI Library v2.0.0
 
 ## Library
 
-### SetTheme
-
-Sets the active theme for new windows.
-
-```lua
-VogueLib:SetTheme(themeName)
-```
-
-**Parameters:**
-- `themeName` (string): Theme name ("Dark", "Light", "Ocean", "Purple", "Rose")
-
-**Returns:** boolean (success)
-
-**Example:**
-```lua
-VogueLib:SetTheme("Ocean")
-```
-
 ### GetThemes
 
 Returns list of available theme names.
@@ -55,12 +37,12 @@ local themes = VogueLib:GetThemes()
 
 **Returns:** table (array of theme names)
 
-### CreateCustomTheme
+### AddTheme
 
 Creates a custom theme.
 
 ```lua
-VogueLib:CreateCustomTheme(name, colors)
+VogueLib:AddTheme(name, colors)
 ```
 
 **Parameters:**
@@ -69,22 +51,19 @@ VogueLib:CreateCustomTheme(name, colors)
 
 **Example:**
 ```lua
-VogueLib:CreateCustomTheme("Neon", {
-    Background = Color3.fromRGB(10, 10, 15),
+VogueLib:AddTheme("Neon", {
+    Primary = Color3.fromRGB(10, 10, 15),
     Secondary = Color3.fromRGB(20, 20, 30),
     Tertiary = Color3.fromRGB(30, 30, 45),
     Accent = Color3.fromRGB(0, 255, 200),
     AccentDark = Color3.fromRGB(0, 200, 160),
-    AccentGlow = Color3.fromRGB(100, 255, 230),
     Text = Color3.fromRGB(255, 255, 255),
     TextDark = Color3.fromRGB(180, 180, 180),
     TextMuted = Color3.fromRGB(120, 120, 120),
     Divider = Color3.fromRGB(50, 50, 70),
     Success = Color3.fromRGB(0, 255, 150),
     Error = Color3.fromRGB(255, 80, 100),
-    Warning = Color3.fromRGB(255, 200, 0),
-    GradientStart = Color3.fromRGB(0, 255, 200),
-    GradientEnd = Color3.fromRGB(0, 200, 160)
+    Warning = Color3.fromRGB(255, 200, 0)
 })
 ```
 
@@ -105,8 +84,8 @@ local Window = VogueLib:CreateWindow({
 ```
 
 **Parameters:**
-- `Title` (string): Window title (default: "VOGUE HUB")
-- `Size` (UDim2): Window size (default: UDim2.new(0, 550, 0, 400))
+- `Title` (string): Window title (default: "Vogue Hub")
+- `Size` (UDim2): Window size (default: UDim2.new(0, 580, 0, 420))
 - `Theme` (string): Theme name (default: "Dark")
 
 **Returns:** Window object
@@ -121,6 +100,15 @@ local Window = VogueLib:CreateWindow({
 ```
 
 ### Window Methods
+
+#### SetTheme
+Dynamically changes the theme of the current window. All UI elements update instantly.
+
+```lua
+Window:SetTheme("Ocean") -- Changes theme with smooth animation
+```
+
+**Returns:** boolean (success)
 
 #### Toggle
 ```lua
@@ -231,7 +219,7 @@ Section:CreateButton({
 
 ### Toggle
 
-Creates an On/Off toggle with glow effect.
+Creates an On/Off toggle switch.
 
 ```lua
 local Toggle = Section:CreateToggle({
@@ -645,11 +633,19 @@ Window:Notify({
 
 | Theme | Description |
 |-------|-------------|
-| Dark | Elegant dark with gold accents (default) |
+| Dark | Elegant dark with purple accents (default) |
 | Light | Clean light theme |
+| Midnight | GitHub-style dark blue |
+| Sunset | Warm pink/rose tones |
 | Ocean | Deep blue oceanic feel |
-| Purple | Rich purple aesthetics |
-| Rose | Soft pink/rose tones |
+
+### Dynamic Theme Switching
+
+Themes can be changed at runtime and all UI elements will update with smooth animations:
+
+```lua
+Window:SetTheme("Ocean") -- Instantly updates all elements
+```
 
 ### Theme Colors
 
@@ -657,20 +653,17 @@ Each theme contains these color properties:
 
 ```lua
 {
-    Background = Color3,    -- Main background
-    Secondary = Color3,     -- Secondary background
-    Tertiary = Color3,      -- Tertiary/hover background
-    Accent = Color3,        -- Primary accent color
-    AccentDark = Color3,    -- Darker accent
-    AccentGlow = Color3,    -- Glow effect color
-    Text = Color3,          -- Primary text
-    TextDark = Color3,      -- Secondary text
-    TextMuted = Color3,     -- Muted/placeholder text
-    Divider = Color3,       -- Divider lines
-    Success = Color3,       -- Success notifications
-    Error = Color3,         -- Error notifications
-    Warning = Color3,       -- Warning notifications
-    GradientStart = Color3, -- Gradient start color
-    GradientEnd = Color3    -- Gradient end color
+    Primary = Color3,     -- Main background
+    Secondary = Color3,   -- Secondary background (sidebar, header)
+    Tertiary = Color3,    -- Component backgrounds
+    Accent = Color3,      -- Primary accent color
+    AccentDark = Color3,  -- Darker accent variant
+    Text = Color3,        -- Primary text
+    TextDark = Color3,    -- Secondary text
+    TextMuted = Color3,   -- Muted/placeholder text
+    Divider = Color3,     -- Divider lines
+    Success = Color3,     -- Success notifications
+    Error = Color3,       -- Error notifications
+    Warning = Color3      -- Warning notifications
 }
 ```
