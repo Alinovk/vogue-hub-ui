@@ -1,9 +1,9 @@
 --[[
     FULL SHOWCASE
-    Demonstration of all library features v2.0.0
+    Demonstration of all library features v3.0.0
 ]]
 
-local VogueLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/Alinovk/vogue-hub-ui/main/src/init.lua"))()
+local VogueLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/yourusername/vogue-hub-ui/main/src/init.lua"))()
 
 local Window = VogueLib:CreateWindow({
     Title = "VOGUE HUB SHOWCASE",
@@ -152,13 +152,13 @@ KeybindSection:CreateLabel("Press ESC while listening to clear keybind")
 -- ═══════════════════════════════════════
 -- TAB 3: NEW COMPONENTS
 -- ═══════════════════════════════════════
-local NewTab = Window:CreateTab({Name = "New v2.0", Icon = "✨"})
+local NewTab = Window:CreateTab({Name = "New v3.0", Icon = "✨"})
 
 local ColorSection = NewTab:CreateSection("Color Picker")
 local MyColor = ColorSection:CreateColorPicker({
     Name = "Pick Color",
     Icon = "🎨",
-    Default = Color3.fromRGB(200, 170, 130),
+    Default = Color3.fromRGB(138, 116, 249),
     Callback = function(Color)
         print("Color:", Color)
     end
@@ -168,6 +168,13 @@ ColorSection:CreateButton({
     Name = "Set Red",
     Callback = function()
         MyColor:Set(Color3.fromRGB(255, 0, 0))
+    end
+})
+
+ColorSection:CreateButton({
+    Name = "Set Blue",
+    Callback = function()
+        MyColor:Set(Color3.fromRGB(0, 100, 255))
     end
 })
 
@@ -203,7 +210,7 @@ ProgressSection:CreateButton({
 })
 
 local SeparatorSection = NewTab:CreateSection("Separators & Labels")
-SeparatorSection:CreateLabel("📊 Version: 2.0.0")
+SeparatorSection:CreateLabel("📊 Version: 3.0.0")
 SeparatorSection:CreateSeparator()
 SeparatorSection:CreateLabel("👤 User: " .. game.Players.LocalPlayer.Name)
 SeparatorSection:CreateSeparator()
@@ -215,7 +222,7 @@ SeparatorSection:CreateLabel("🎮 Game: " .. tostring(game.PlaceId))
 local ThemesTab = Window:CreateTab({Name = "Themes", Icon = "🎭"})
 
 local ThemeSection = ThemesTab:CreateSection("Theme Selection")
-ThemeSection:CreateLabel("Note: Theme changes apply to new windows")
+ThemeSection:CreateLabel("Themes apply instantly to the current window!")
 ThemeSection:CreateSeparator()
 
 local themes = VogueLib:GetThemes()
@@ -225,13 +232,54 @@ ThemeSection:CreateDropdown({
     Options = themes,
     Default = "Dark",
     Callback = function(Value)
-        VogueLib:SetTheme(Value)
+        Window:SetTheme(Value)
         Window:Notify({
-            Title = "Theme",
-            Content = "Theme set to " .. Value .. ". Create new window to see changes.",
-            Duration = 3,
-            Type = "info"
+            Title = "Theme Changed",
+            Content = "Theme set to " .. Value,
+            Duration = 2,
+            Type = "success"
         })
+    end
+})
+
+local ThemeButtons = ThemesTab:CreateSection("Quick Theme Buttons")
+ThemeButtons:CreateButton({
+    Name = "Dark Theme",
+    Icon = "🌙",
+    Callback = function()
+        Window:SetTheme("Dark")
+    end
+})
+
+ThemeButtons:CreateButton({
+    Name = "Light Theme",
+    Icon = "☀️",
+    Callback = function()
+        Window:SetTheme("Light")
+    end
+})
+
+ThemeButtons:CreateButton({
+    Name = "Midnight Theme",
+    Icon = "🌌",
+    Callback = function()
+        Window:SetTheme("Midnight")
+    end
+})
+
+ThemeButtons:CreateButton({
+    Name = "Sunset Theme",
+    Icon = "🌅",
+    Callback = function()
+        Window:SetTheme("Sunset")
+    end
+})
+
+ThemeButtons:CreateButton({
+    Name = "Ocean Theme",
+    Icon = "🌊",
+    Callback = function()
+        Window:SetTheme("Ocean")
     end
 })
 
@@ -317,4 +365,3 @@ Window:Notify({
     Duration = 4,
     Type = "success"
 })
-
