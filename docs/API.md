@@ -1,13 +1,14 @@
 # 📖 API Documentation
 
-Полная документация по VOGUE HUB UI Library
+Complete documentation for VOGUE HUB UI Library v2.0.0
 
-## Содержание
+## Table of Contents
 
-1. [Window](#window)
-2. [Tab](#tab)
-3. [Section](#section)
-4. [Components](#components)
+1. [Library](#library)
+2. [Window](#window)
+3. [Tab](#tab)
+4. [Section](#section)
+5. [Components](#components)
    - [Button](#button)
    - [Toggle](#toggle)
    - [Slider](#slider)
@@ -15,7 +16,77 @@
    - [TextBox](#textbox)
    - [Keybind](#keybind)
    - [Label](#label)
-5. [Notification](#notification)
+   - [Separator](#separator)
+   - [ProgressBar](#progressbar)
+   - [ColorPicker](#colorpicker)
+   - [Image](#image)
+6. [Notification](#notification)
+7. [Themes](#themes)
+
+---
+
+## Library
+
+### SetTheme
+
+Sets the active theme for new windows.
+
+```lua
+VogueLib:SetTheme(themeName)
+```
+
+**Parameters:**
+- `themeName` (string): Theme name ("Dark", "Light", "Ocean", "Purple", "Rose")
+
+**Returns:** boolean (success)
+
+**Example:**
+```lua
+VogueLib:SetTheme("Ocean")
+```
+
+### GetThemes
+
+Returns list of available theme names.
+
+```lua
+local themes = VogueLib:GetThemes()
+```
+
+**Returns:** table (array of theme names)
+
+### CreateCustomTheme
+
+Creates a custom theme.
+
+```lua
+VogueLib:CreateCustomTheme(name, colors)
+```
+
+**Parameters:**
+- `name` (string): Theme name
+- `colors` (table): Color definitions
+
+**Example:**
+```lua
+VogueLib:CreateCustomTheme("Neon", {
+    Background = Color3.fromRGB(10, 10, 15),
+    Secondary = Color3.fromRGB(20, 20, 30),
+    Tertiary = Color3.fromRGB(30, 30, 45),
+    Accent = Color3.fromRGB(0, 255, 200),
+    AccentDark = Color3.fromRGB(0, 200, 160),
+    AccentGlow = Color3.fromRGB(100, 255, 230),
+    Text = Color3.fromRGB(255, 255, 255),
+    TextDark = Color3.fromRGB(180, 180, 180),
+    TextMuted = Color3.fromRGB(120, 120, 120),
+    Divider = Color3.fromRGB(50, 50, 70),
+    Success = Color3.fromRGB(0, 255, 150),
+    Error = Color3.fromRGB(255, 80, 100),
+    Warning = Color3.fromRGB(255, 200, 0),
+    GradientStart = Color3.fromRGB(0, 255, 200),
+    GradientEnd = Color3.fromRGB(0, 200, 160)
+})
+```
 
 ---
 
@@ -23,199 +94,264 @@
 
 ### CreateWindow
 
-Создает главное окно UI.
+Creates the main UI window.
 
 ```lua
 local Window = VogueLib:CreateWindow({
-    Title = "string",              -- Заголовок окна
-    Size = UDim2                   -- Размер окна
+    Title = "string",
+    Size = UDim2,
+    Theme = "string"
 })
-Параметры:
+```
 
-Title (string): Заголовок окна (по умолчанию: "VOGUE HUB")
-Size (UDim2): Размер окна (по умолчанию: UDim2.new(0, 550, 0, 400))
-Возвращает: Window object
+**Parameters:**
+- `Title` (string): Window title (default: "VOGUE HUB")
+- `Size` (UDim2): Window size (default: UDim2.new(0, 550, 0, 400))
+- `Theme` (string): Theme name (default: "Dark")
 
-Пример:
+**Returns:** Window object
 
-Lua
-
+**Example:**
+```lua
 local Window = VogueLib:CreateWindow({
     Title = "My Hub",
-    Size = UDim2.new(0, 600, 0, 450)
+    Size = UDim2.new(0, 600, 0, 450),
+    Theme = "Ocean"
 })
-Tab
-CreateTab
-Создает новую вкладку в окне.
+```
 
-Lua
+### Window Methods
 
+#### Toggle
+```lua
+Window:Toggle() -- Toggle visibility
+```
+
+#### Show
+```lua
+Window:Show() -- Show window
+```
+
+#### Hide
+```lua
+Window:Hide() -- Hide window
+```
+
+#### Destroy
+```lua
+Window:Destroy() -- Destroy window and cleanup
+```
+
+---
+
+## Tab
+
+### CreateTab
+
+Creates a new tab in the window.
+
+```lua
 local Tab = Window:CreateTab({
-    Name = "string",               -- Название таба
-    Icon = "string"                -- Иконка (опционально)
+    Name = "string",
+    Icon = "string"
 })
-Параметры:
+```
 
-Name (string): Название таба
-Icon (string): Иконка таба (опционально)
-Возвращает: Tab object
+**Parameters:**
+- `Name` (string): Tab name
+- `Icon` (string): Tab icon emoji (optional)
 
-Пример:
+**Returns:** Tab object
 
-Lua
-
+**Example:**
+```lua
 local MainTab = Window:CreateTab({
-    Name = "Main"
+    Name = "Main",
+    Icon = "🏠"
 })
-Section
-CreateSection
-Создает секцию внутри таба.
+```
 
-Lua
+---
 
+## Section
+
+### CreateSection
+
+Creates a section inside a tab.
+
+```lua
 local Section = Tab:CreateSection("string")
-Параметры:
+```
 
-sectionName (string): Название секции
-Возвращает: Section object
+**Parameters:**
+- `sectionName` (string): Section name
 
-Пример:
+**Returns:** Section object
 
-Lua
-
+**Example:**
+```lua
 local PlayerSection = MainTab:CreateSection("Player")
-Components
-Button
-Создает кликабельную кнопку.
+```
 
-Lua
+---
 
+## Components
+
+### Button
+
+Creates a clickable button with ripple effect.
+
+```lua
 Section:CreateButton({
-    Name = "string",               -- Название кнопки
-    Callback = function()          -- Функция при клике
-        -- код
+    Name = "string",
+    Icon = "string",
+    Callback = function()
+        -- code
     end
 })
-Параметры:
+```
 
-Name (string): Текст на кнопке
-Callback (function): Функция, вызываемая при клике
-Пример:
+**Parameters:**
+- `Name` (string): Button text
+- `Icon` (string): Button icon emoji (optional)
+- `Callback` (function): Function called on click
 
-Lua
-
+**Example:**
+```lua
 Section:CreateButton({
     Name = "Print Message",
+    Icon = "📝",
     Callback = function()
         print("Button clicked!")
     end
 })
-Toggle
-Создает переключатель On/Off.
+```
 
-Lua
+---
 
+### Toggle
+
+Creates an On/Off toggle with glow effect.
+
+```lua
 local Toggle = Section:CreateToggle({
-    Name = "string",               -- Название
-    Default = boolean,             -- Начальное состояние
-    Callback = function(Value)     -- Функция обратного вызова
+    Name = "string",
+    Icon = "string",
+    Default = boolean,
+    Callback = function(Value)
         -- Value = true/false
     end
 })
-Параметры:
+```
 
-Name (string): Название переключателя
-Default (boolean): Начальное состояние (по умолчанию: false)
-Callback (function): Функция, получающая новое значение
-Методы:
+**Parameters:**
+- `Name` (string): Toggle name
+- `Icon` (string): Toggle icon emoji (optional)
+- `Default` (boolean): Initial state (default: false)
+- `Callback` (function): Function receiving new value
 
-Toggle:Set(value) - Установить состояние
-Toggle:Get() - Получить текущее состояние
-Пример:
+**Methods:**
+- `Toggle:Set(value)` - Set state
+- `Toggle:Get()` - Get current state
 
-Lua
-
+**Example:**
+```lua
 local MyToggle = Section:CreateToggle({
     Name = "Enable Feature",
+    Icon = "⚡",
     Default = false,
     Callback = function(Value)
         print("Toggle is now:", Value)
     end
 })
 
--- Использование API
-MyToggle:Set(true)           -- Включить
-local state = MyToggle:Get() -- Получить состояние
-Slider
-Создает слайдер для выбора числового значения.
+MyToggle:Set(true)
+local state = MyToggle:Get()
+```
 
-Lua
+---
 
+### Slider
+
+Creates a slider for numeric value selection.
+
+```lua
 local Slider = Section:CreateSlider({
-    Name = "string",               -- Название
-    Min = number,                  -- Минимальное значение
-    Max = number,                  -- Максимальное значение
-    Default = number,              -- Значение по умолчанию
-    Callback = function(Value)     -- Функция обратного вызова
-        -- Value = число
+    Name = "string",
+    Icon = "string",
+    Min = number,
+    Max = number,
+    Default = number,
+    Increment = number,
+    Callback = function(Value)
+        -- Value = number
     end
 })
-Параметры:
+```
 
-Name (string): Название слайдера
-Min (number): Минимальное значение
-Max (number): Максимальное значение
-Default (number): Начальное значение
-Callback (function): Функция, получающая новое значение
-Методы:
+**Parameters:**
+- `Name` (string): Slider name
+- `Icon` (string): Slider icon emoji (optional)
+- `Min` (number): Minimum value
+- `Max` (number): Maximum value
+- `Default` (number): Initial value
+- `Increment` (number): Step increment (default: 1)
+- `Callback` (function): Function receiving new value
 
-Slider:Set(value) - Установить значение
-Slider:Get() - Получить текущее значение
-Пример:
+**Methods:**
+- `Slider:Set(value)` - Set value
+- `Slider:Get()` - Get current value
 
-Lua
-
+**Example:**
+```lua
 local SpeedSlider = Section:CreateSlider({
     Name = "Walk Speed",
+    Icon = "🏃",
     Min = 16,
     Max = 200,
     Default = 16,
+    Increment = 1,
     Callback = function(Value)
         game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = Value
     end
 })
+```
 
-SpeedSlider:Set(100)  -- Установить скорость
-Dropdown
-Создает выпадающий список.
+---
 
-Lua
+### Dropdown
 
+Creates a dropdown list.
+
+```lua
 local Dropdown = Section:CreateDropdown({
-    Name = "string",               -- Название
-    Options = {"opt1", "opt2"},    -- Список опций
-    Default = "string",            -- Выбранная опция
-    Callback = function(Value)     -- Функция обратного вызова
-        -- Value = выбранная опция
+    Name = "string",
+    Icon = "string",
+    Options = {"opt1", "opt2"},
+    Default = "string",
+    Callback = function(Value)
+        -- Value = selected option
     end
 })
-Параметры:
+```
 
-Name (string): Название dropdown
-Options (table): Массив доступных опций
-Default (string): Выбранная по умолчанию опция
-Callback (function): Функция, получающая выбранную опцию
-Методы:
+**Parameters:**
+- `Name` (string): Dropdown name
+- `Icon` (string): Dropdown icon emoji (optional)
+- `Options` (table): Array of available options
+- `Default` (string): Default selected option
+- `Callback` (function): Function receiving selected option
 
-Dropdown:Set(value) - Установить выбранную опцию
-Dropdown:Get() - Получить текущую опцию
-Dropdown:Refresh(options) - Обновить список опций
-Пример:
+**Methods:**
+- `Dropdown:Set(value)` - Set selected option
+- `Dropdown:Get()` - Get current option
+- `Dropdown:Refresh(options)` - Update options list
 
-Lua
-
+**Example:**
+```lua
 local WeaponDropdown = Section:CreateDropdown({
     Name = "Select Weapon",
+    Icon = "⚔️",
     Options = {"Sword", "Bow", "Staff"},
     Default = "Sword",
     Callback = function(Value)
@@ -224,112 +360,317 @@ local WeaponDropdown = Section:CreateDropdown({
 })
 
 WeaponDropdown:Refresh({"Sword", "Bow", "Staff", "Axe"})
-TextBox
-Создает поле для ввода текста.
+```
 
-Lua
+---
 
+### TextBox
+
+Creates a text input field.
+
+```lua
 local TextBox = Section:CreateTextBox({
-    Name = "string",               -- Название
-    Placeholder = "string",        -- Текст-подсказка
-    Callback = function(Value)     -- Функция обратного вызова
-        -- Value = введенный текст
+    Name = "string",
+    Icon = "string",
+    Placeholder = "string",
+    Default = "string",
+    Callback = function(Value)
+        -- Value = entered text
     end
 })
-Параметры:
+```
 
-Name (string): Название поля
-Placeholder (string): Текст-подсказка
-Callback (function): Вызывается при нажатии Enter
-Методы:
+**Parameters:**
+- `Name` (string): Field name
+- `Icon` (string): Field icon emoji (optional)
+- `Placeholder` (string): Placeholder text
+- `Default` (string): Default text
+- `Callback` (function): Called on Enter press
 
-TextBox:Set(text) - Установить текст
-TextBox:Get() - Получить текущий текст
-Пример:
+**Methods:**
+- `TextBox:Set(text)` - Set text
+- `TextBox:Get()` - Get current text
 
-Lua
-
+**Example:**
+```lua
 local NameBox = Section:CreateTextBox({
     Name = "Player Name",
+    Icon = "👤",
     Placeholder = "Enter name...",
     Callback = function(Value)
         print("Name entered:", Value)
     end
 })
-Keybind
-Создает привязку к клавише.
+```
 
-Lua
+---
 
+### Keybind
+
+Creates a key binding.
+
+```lua
 local Keybind = Section:CreateKeybind({
-    Name = "string",               -- Название
-    Default = Enum.KeyCode,        -- Клавиша по умолчанию
-    Callback = function()          -- Функция при нажатии
-        -- код
+    Name = "string",
+    Icon = "string",
+    Default = Enum.KeyCode,
+    Callback = function()
+        -- code
     end
 })
-Параметры:
+```
 
-Name (string): Название keybind
-Default (Enum.KeyCode): Клавиша по умолчанию
-Callback (function): Вызывается при нажатии клавиши
-Методы:
+**Parameters:**
+- `Name` (string): Keybind name
+- `Icon` (string): Keybind icon emoji (optional)
+- `Default` (Enum.KeyCode): Default key
+- `Callback` (function): Called on key press
 
-Keybind:Set(keycode) - Установить клавишу
-Keybind:Get() - Получить текущую клавишу
-Пример:
+**Methods:**
+- `Keybind:Set(keycode)` - Set key
+- `Keybind:Get()` - Get current key
 
-Lua
+**Note:** Press Escape while listening to clear the keybind.
 
+**Example:**
+```lua
 local ToggleKeybind = Section:CreateKeybind({
     Name = "Toggle Menu",
+    Icon = "⌨️",
     Default = Enum.KeyCode.RightControl,
     Callback = function()
-        print("Menu toggled!")
+        Window:Toggle()
     end
 })
-Label
-Создает текстовую метку.
+```
 
-Lua
+---
 
+### Label
+
+Creates a text label.
+
+```lua
 local Label = Section:CreateLabel("string")
-Параметры:
+```
 
-labelText (string): Текст метки
-Методы:
+**Parameters:**
+- `labelText` (string): Label text
 
-Label:Set(text) - Изменить текст
-Пример:
+**Methods:**
+- `Label:Set(text)` - Change text
+- `Label:Get()` - Get current text
 
-Lua
-
+**Example:**
+```lua
 local StatusLabel = Section:CreateLabel("Status: Ready")
-
--- Обновить текст
 StatusLabel:Set("Status: Active")
-Notification
-Notify
-Создает всплывающее уведомление.
+```
 
-Lua
+---
 
-Window:Notify({
-    Title = "string",              -- Заголовок
-    Content = "string",            -- Содержимое
-    Duration = number              -- Длительность в секундах
+### Separator
+
+Creates a visual separator line.
+
+```lua
+Section:CreateSeparator()
+```
+
+**Example:**
+```lua
+Section:CreateButton({Name = "Button 1", Callback = function() end})
+Section:CreateSeparator()
+Section:CreateButton({Name = "Button 2", Callback = function() end})
+```
+
+---
+
+### ProgressBar
+
+Creates an animated progress bar.
+
+```lua
+local Progress = Section:CreateProgressBar({
+    Name = "string",
+    Icon = "string",
+    Default = number,
+    Max = number
 })
-Параметры:
+```
 
-Title (string): Заголовок уведомления
-Content (string): Текст уведомления
-Duration (number): Длительность показа (по умолчанию: 3)
-Пример:
+**Parameters:**
+- `Name` (string): Progress bar name
+- `Icon` (string): Icon emoji (optional)
+- `Default` (number): Initial value (default: 0)
+- `Max` (number): Maximum value (default: 100)
 
-Lua
+**Methods:**
+- `Progress:Set(value)` - Set value
+- `Progress:Get()` - Get current value
+- `Progress:Increment(amount)` - Increment by amount
 
+**Example:**
+```lua
+local LoadProgress = Section:CreateProgressBar({
+    Name = "Loading",
+    Icon = "📊",
+    Default = 0,
+    Max = 100
+})
+
+-- Update progress
+for i = 1, 100 do
+    LoadProgress:Set(i)
+    task.wait(0.05)
+end
+```
+
+---
+
+### ColorPicker
+
+Creates a full HSV color picker.
+
+```lua
+local ColorPicker = Section:CreateColorPicker({
+    Name = "string",
+    Icon = "string",
+    Default = Color3,
+    Callback = function(Color)
+        -- Color = Color3 value
+    end
+})
+```
+
+**Parameters:**
+- `Name` (string): Color picker name
+- `Icon` (string): Icon emoji (optional)
+- `Default` (Color3): Default color
+- `Callback` (function): Called on color change
+
+**Methods:**
+- `ColorPicker:Set(color)` - Set color
+- `ColorPicker:Get()` - Get current color
+
+**Example:**
+```lua
+local ESPColor = Section:CreateColorPicker({
+    Name = "ESP Color",
+    Icon = "🎨",
+    Default = Color3.fromRGB(255, 0, 0),
+    Callback = function(Color)
+        print("New color:", Color)
+    end
+})
+```
+
+---
+
+### Image
+
+Creates an image display.
+
+```lua
+local Image = Section:CreateImage({
+    Name = "string",
+    Image = "string",
+    Size = UDim2
+})
+```
+
+**Parameters:**
+- `Name` (string): Image name
+- `Image` (string): Image asset ID
+- `Size` (UDim2): Image size
+
+**Methods:**
+- `Image:Set(imageId)` - Set image
+- `Image:Get()` - Get current image ID
+
+**Example:**
+```lua
+local Logo = Section:CreateImage({
+    Name = "Logo",
+    Image = "rbxassetid://123456789",
+    Size = UDim2.new(1, 0, 0, 100)
+})
+```
+
+---
+
+## Notification
+
+### Notify
+
+Creates a stacking notification with progress bar.
+
+```lua
+Window:Notify({
+    Title = "string",
+    Content = "string",
+    Duration = number,
+    Type = "string"
+})
+```
+
+**Parameters:**
+- `Title` (string): Notification title
+- `Content` (string): Notification text
+- `Duration` (number): Display duration in seconds (default: 3)
+- `Type` (string): Notification type - "info", "success", "error", "warning" (default: "info")
+
+**Example:**
+```lua
 Window:Notify({
     Title = "Success",
     Content = "Feature enabled successfully!",
-    Duration = 4
+    Duration = 4,
+    Type = "success"
 })
+
+Window:Notify({
+    Title = "Error",
+    Content = "Something went wrong!",
+    Duration = 5,
+    Type = "error"
+})
+```
+
+---
+
+## Themes
+
+### Available Themes
+
+| Theme | Description |
+|-------|-------------|
+| Dark | Elegant dark with gold accents (default) |
+| Light | Clean light theme |
+| Ocean | Deep blue oceanic feel |
+| Purple | Rich purple aesthetics |
+| Rose | Soft pink/rose tones |
+
+### Theme Colors
+
+Each theme contains these color properties:
+
+```lua
+{
+    Background = Color3,    -- Main background
+    Secondary = Color3,     -- Secondary background
+    Tertiary = Color3,      -- Tertiary/hover background
+    Accent = Color3,        -- Primary accent color
+    AccentDark = Color3,    -- Darker accent
+    AccentGlow = Color3,    -- Glow effect color
+    Text = Color3,          -- Primary text
+    TextDark = Color3,      -- Secondary text
+    TextMuted = Color3,     -- Muted/placeholder text
+    Divider = Color3,       -- Divider lines
+    Success = Color3,       -- Success notifications
+    Error = Color3,         -- Error notifications
+    Warning = Color3,       -- Warning notifications
+    GradientStart = Color3, -- Gradient start color
+    GradientEnd = Color3    -- Gradient end color
+}
+```
