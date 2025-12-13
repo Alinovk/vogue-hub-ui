@@ -1,320 +1,273 @@
 --[[
-    FULL SHOWCASE
-    Demonstration of all library features v2.0.0
+    GAME SCRIPT EXAMPLE
+    Practical example for game exploits v3.0.0
 ]]
 
-local VogueLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/Alinovk/vogue-hub-ui/main/src/init.lua"))()
+local VogueLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/yourusername/vogue-hub-ui/main/src/init.lua"))()
+
+local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
 
 local Window = VogueLib:CreateWindow({
-    Title = "VOGUE HUB SHOWCASE",
-    Size = UDim2.new(0, 600, 0, 450),
-    Theme = "Dark"
+    Title = "Game Hub",
+    Size = UDim2.new(0, 580, 0, 420),
+    Theme = "Midnight"
 })
 
 -- ═══════════════════════════════════════
--- TAB 1: COMPONENTS
+-- PLAYER TAB
 -- ═══════════════════════════════════════
-local ComponentsTab = Window:CreateTab({Name = "Components", Icon = "🔧"})
+local PlayerTab = Window:CreateTab({Name = "Player", Icon = "👤"})
 
-local ButtonSection = ComponentsTab:CreateSection("Buttons")
-ButtonSection:CreateButton({
-    Name = "Standard Button",
-    Icon = "🔘",
-    Callback = function()
-        Window:Notify({
-            Title = "Button",
-            Content = "Standard button clicked!",
-            Duration = 2,
-            Type = "info"
-        })
-    end
-})
+local MovementSection = PlayerTab:CreateSection("Movement")
 
-ButtonSection:CreateButton({
-    Name = "Success Action",
-    Icon = "✅",
-    Callback = function()
-        Window:Notify({
-            Title = "Success",
-            Content = "Action completed!",
-            Duration = 2,
-            Type = "success"
-        })
-    end
-})
-
-local ToggleSection = ComponentsTab:CreateSection("Toggles")
-local Toggle1 = ToggleSection:CreateToggle({
-    Name = "Toggle Feature 1",
-    Icon = "⚡",
-    Default = false,
+MovementSection:CreateSlider({
+    Name = "Walk Speed",
+    Icon = "🏃",
+    Min = 16,
+    Max = 200,
+    Default = 16,
     Callback = function(Value)
-        print("Feature 1:", Value)
+        if LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("Humanoid") then
+            LocalPlayer.Character.Humanoid.WalkSpeed = Value
+        end
     end
 })
 
-ToggleSection:CreateToggle({
-    Name = "Toggle Feature 2",
-    Icon = "🔥",
-    Default = true,
-    Callback = function(Value)
-        print("Feature 2:", Value)
-    end
-})
-
-local SliderSection = ComponentsTab:CreateSection("Sliders")
-SliderSection:CreateSlider({
-    Name = "Slider 1",
-    Icon = "📊",
-    Min = 0,
-    Max = 100,
+MovementSection:CreateSlider({
+    Name = "Jump Power",
+    Icon = "⬆️",
+    Min = 50,
+    Max = 300,
     Default = 50,
     Callback = function(Value)
-        print("Slider 1:", Value)
-    end
-})
-
-SliderSection:CreateSlider({
-    Name = "Precise Slider",
-    Icon = "🎯",
-    Min = 0,
-    Max = 1,
-    Default = 0.5,
-    Increment = 0.1,
-    Callback = function(Value)
-        print("Precise:", Value)
-    end
-})
-
--- ═══════════════════════════════════════
--- TAB 2: INPUTS
--- ═══════════════════════════════════════
-local InputsTab = Window:CreateTab({Name = "Inputs", Icon = "⌨️"})
-
-local DropdownSection = InputsTab:CreateSection("Dropdowns")
-local MainDropdown = DropdownSection:CreateDropdown({
-    Name = "Select Option",
-    Icon = "📋",
-    Options = {"Option 1", "Option 2", "Option 3", "Option 4"},
-    Default = "Option 1",
-    Callback = function(Value)
-        print("Selected:", Value)
-    end
-})
-
-DropdownSection:CreateButton({
-    Name = "Add Option 5",
-    Callback = function()
-        MainDropdown:Refresh({"Option 1", "Option 2", "Option 3", "Option 4", "Option 5"})
-        Window:Notify({
-            Title = "Dropdown",
-            Content = "Option 5 added!",
-            Duration = 2,
-            Type = "success"
-        })
-    end
-})
-
-local TextBoxSection = InputsTab:CreateSection("Text Inputs")
-TextBoxSection:CreateTextBox({
-    Name = "Enter Text",
-    Icon = "✏️",
-    Placeholder = "Type here...",
-    Callback = function(Value)
-        print("Text entered:", Value)
-        Window:Notify({
-            Title = "Text Input",
-            Content = "You entered: " .. Value,
-            Duration = 3,
-            Type = "info"
-        })
-    end
-})
-
-local KeybindSection = InputsTab:CreateSection("Keybinds")
-KeybindSection:CreateKeybind({
-    Name = "Toggle UI",
-    Icon = "🎮",
-    Default = Enum.KeyCode.RightControl,
-    Callback = function()
-        print("Keybind pressed!")
-        Window:Notify({
-            Title = "Keybind",
-            Content = "Toggle UI keybind activated!",
-            Duration = 2,
-            Type = "info"
-        })
-    end
-})
-
-KeybindSection:CreateLabel("Press ESC while listening to clear keybind")
-
--- ═══════════════════════════════════════
--- TAB 3: NEW COMPONENTS
--- ═══════════════════════════════════════
-local NewTab = Window:CreateTab({Name = "New v2.0", Icon = "✨"})
-
-local ColorSection = NewTab:CreateSection("Color Picker")
-local MyColor = ColorSection:CreateColorPicker({
-    Name = "Pick Color",
-    Icon = "🎨",
-    Default = Color3.fromRGB(200, 170, 130),
-    Callback = function(Color)
-        print("Color:", Color)
-    end
-})
-
-ColorSection:CreateButton({
-    Name = "Set Red",
-    Callback = function()
-        MyColor:Set(Color3.fromRGB(255, 0, 0))
-    end
-})
-
-local ProgressSection = NewTab:CreateSection("Progress Bar")
-local MyProgress = ProgressSection:CreateProgressBar({
-    Name = "Loading Progress",
-    Icon = "📈",
-    Default = 0,
-    Max = 100
-})
-
-ProgressSection:CreateButton({
-    Name = "Simulate Loading",
-    Callback = function()
-        for i = 0, 100, 5 do
-            MyProgress:Set(i)
-            task.wait(0.1)
+        if LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("Humanoid") then
+            LocalPlayer.Character.Humanoid.JumpPower = Value
         end
+    end
+})
+
+MovementSection:CreateToggle({
+    Name = "Infinite Jump",
+    Icon = "🦘",
+    Default = false,
+    Callback = function(Value)
+        _G.InfiniteJump = Value
+    end
+})
+
+-- Infinite Jump Handler
+game:GetService("UserInputService").JumpRequest:Connect(function()
+    if _G.InfiniteJump then
+        if LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("Humanoid") then
+            LocalPlayer.Character.Humanoid:ChangeState(Enum.HumanoidStateType.Jumping)
+        end
+    end
+end)
+
+local CharacterSection = PlayerTab:CreateSection("Character")
+
+CharacterSection:CreateToggle({
+    Name = "God Mode",
+    Icon = "🛡️",
+    Default = false,
+    Callback = function(Value)
+        if LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("Humanoid") then
+            if Value then
+                LocalPlayer.Character.Humanoid.MaxHealth = math.huge
+                LocalPlayer.Character.Humanoid.Health = math.huge
+            else
+                LocalPlayer.Character.Humanoid.MaxHealth = 100
+                LocalPlayer.Character.Humanoid.Health = 100
+            end
+        end
+    end
+})
+
+CharacterSection:CreateButton({
+    Name = "Reset Character",
+    Icon = "💀",
+    Callback = function()
+        if LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("Humanoid") then
+            LocalPlayer.Character.Humanoid.Health = 0
+        end
+    end
+})
+
+-- ═══════════════════════════════════════
+-- VISUALS TAB
+-- ═══════════════════════════════════════
+local VisualsTab = Window:CreateTab({Name = "Visuals", Icon = "👁️"})
+
+local ESPSection = VisualsTab:CreateSection("ESP Settings")
+
+local ESPEnabled = false
+local ESPColor = Color3.fromRGB(255, 0, 0)
+
+ESPSection:CreateToggle({
+    Name = "Enable ESP",
+    Icon = "👀",
+    Default = false,
+    Callback = function(Value)
+        ESPEnabled = Value
+        -- ESP implementation would go here
         Window:Notify({
-            Title = "Complete",
-            Content = "Loading finished!",
+            Title = "ESP",
+            Content = Value and "ESP Enabled" or "ESP Disabled",
             Duration = 2,
-            Type = "success"
+            Type = Value and "success" or "info"
         })
     end
 })
 
-ProgressSection:CreateButton({
-    Name = "Reset Progress",
-    Callback = function()
-        MyProgress:Set(0)
+ESPSection:CreateColorPicker({
+    Name = "ESP Color",
+    Icon = "🎨",
+    Default = Color3.fromRGB(255, 0, 0),
+    Callback = function(Color)
+        ESPColor = Color
     end
 })
 
-local SeparatorSection = NewTab:CreateSection("Separators & Labels")
-SeparatorSection:CreateLabel("📊 Version: 2.0.0")
-SeparatorSection:CreateSeparator()
-SeparatorSection:CreateLabel("👤 User: " .. game.Players.LocalPlayer.Name)
-SeparatorSection:CreateSeparator()
-SeparatorSection:CreateLabel("🎮 Game: " .. tostring(game.PlaceId))
-
--- ═══════════════════════════════════════
--- TAB 4: THEMES
--- ═══════════════════════════════════════
-local ThemesTab = Window:CreateTab({Name = "Themes", Icon = "🎭"})
-
-local ThemeSection = ThemesTab:CreateSection("Theme Selection")
-ThemeSection:CreateLabel("Note: Theme changes apply to new windows")
-ThemeSection:CreateSeparator()
-
-local themes = VogueLib:GetThemes()
-ThemeSection:CreateDropdown({
-    Name = "Select Theme",
-    Icon = "🎨",
-    Options = themes,
-    Default = "Dark",
+ESPSection:CreateDropdown({
+    Name = "ESP Type",
+    Icon = "📋",
+    Options = {"Box", "Corner", "Highlight"},
+    Default = "Box",
     Callback = function(Value)
-        VogueLib:SetTheme(Value)
+        print("ESP Type:", Value)
+    end
+})
+
+local WorldSection = VisualsTab:CreateSection("World")
+
+WorldSection:CreateToggle({
+    Name = "Fullbright",
+    Icon = "💡",
+    Default = false,
+    Callback = function(Value)
+        local Lighting = game:GetService("Lighting")
+        if Value then
+            Lighting.Brightness = 2
+            Lighting.ClockTime = 14
+            Lighting.FogEnd = 100000
+            Lighting.GlobalShadows = false
+        else
+            Lighting.Brightness = 1
+            Lighting.ClockTime = 14
+            Lighting.FogEnd = 10000
+            Lighting.GlobalShadows = true
+        end
+    end
+})
+
+-- ═══════════════════════════════════════
+-- TELEPORT TAB
+-- ═══════════════════════════════════════
+local TeleportTab = Window:CreateTab({Name = "Teleport", Icon = "🌀"})
+
+local TeleportSection = TeleportTab:CreateSection("Player Teleport")
+
+local SelectedPlayer = nil
+
+TeleportSection:CreateDropdown({
+    Name = "Select Player",
+    Icon = "👥",
+    Options = (function()
+        local names = {}
+        for _, p in pairs(Players:GetPlayers()) do
+            if p ~= LocalPlayer then
+                table.insert(names, p.Name)
+            end
+        end
+        return names
+    end)(),
+    Callback = function(Value)
+        SelectedPlayer = Value
+    end
+})
+
+TeleportSection:CreateButton({
+    Name = "Teleport to Player",
+    Icon = "🚀",
+    Callback = function()
+        if SelectedPlayer then
+            local target = Players:FindFirstChild(SelectedPlayer)
+            if target and target.Character and target.Character:FindFirstChild("HumanoidRootPart") then
+                if LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("HumanoidRootPart") then
+                    LocalPlayer.Character.HumanoidRootPart.CFrame = target.Character.HumanoidRootPart.CFrame
+                    Window:Notify({
+                        Title = "Teleport",
+                        Content = "Teleported to " .. SelectedPlayer,
+                        Duration = 2,
+                        Type = "success"
+                    })
+                end
+            end
+        else
+            Window:Notify({
+                Title = "Error",
+                Content = "No player selected!",
+                Duration = 2,
+                Type = "error"
+            })
+        end
+    end
+})
+
+-- ═══════════════════════════════════════
+-- SETTINGS TAB
+-- ═══════════════════════════════════════
+local SettingsTab = Window:CreateTab({Name = "Settings", Icon = "⚙️"})
+
+local UISection = SettingsTab:CreateSection("UI Settings")
+
+UISection:CreateDropdown({
+    Name = "Theme",
+    Icon = "🎨",
+    Options = VogueLib:GetThemes(),
+    Default = "Midnight",
+    Callback = function(Value)
+        Window:SetTheme(Value)
         Window:Notify({
             Title = "Theme",
-            Content = "Theme set to " .. Value .. ". Create new window to see changes.",
-            Duration = 3,
-            Type = "info"
-        })
-    end
-})
-
--- ═══════════════════════════════════════
--- TAB 5: NOTIFICATIONS
--- ═══════════════════════════════════════
-local NotifyTab = Window:CreateTab({Name = "Notifications", Icon = "🔔"})
-
-local NotifySection = NotifyTab:CreateSection("Notification Types")
-
-NotifySection:CreateButton({
-    Name = "Info Notification",
-    Icon = "ℹ️",
-    Callback = function()
-        Window:Notify({
-            Title = "Information",
-            Content = "This is an info notification",
-            Duration = 3,
-            Type = "info"
-        })
-    end
-})
-
-NotifySection:CreateButton({
-    Name = "Success Notification",
-    Icon = "✅",
-    Callback = function()
-        Window:Notify({
-            Title = "Success",
-            Content = "Operation completed successfully!",
-            Duration = 3,
+            Content = "Changed to " .. Value,
+            Duration = 2,
             Type = "success"
         })
     end
 })
 
-NotifySection:CreateButton({
-    Name = "Warning Notification",
-    Icon = "⚠️",
+UISection:CreateKeybind({
+    Name = "Toggle UI",
+    Icon = "⌨️",
+    Default = Enum.KeyCode.RightControl,
     Callback = function()
-        Window:Notify({
-            Title = "Warning",
-            Content = "Please be careful with this action",
-            Duration = 3,
-            Type = "warning"
-        })
+        Window:Toggle()
     end
 })
 
-NotifySection:CreateButton({
-    Name = "Error Notification",
-    Icon = "❌",
+UISection:CreateSeparator()
+
+UISection:CreateButton({
+    Name = "Destroy UI",
+    Icon = "🗑️",
     Callback = function()
-        Window:Notify({
-            Title = "Error",
-            Content = "Something went wrong!",
-            Duration = 3,
-            Type = "error"
-        })
+        Window:Destroy()
     end
 })
 
-NotifySection:CreateSeparator()
-
-NotifySection:CreateButton({
-    Name = "Stack Multiple",
-    Icon = "📚",
-    Callback = function()
-        Window:Notify({Title = "First", Content = "Notification 1", Duration = 4, Type = "info"})
-        task.wait(0.3)
-        Window:Notify({Title = "Second", Content = "Notification 2", Duration = 4, Type = "success"})
-        task.wait(0.3)
-        Window:Notify({Title = "Third", Content = "Notification 3", Duration = 4, Type = "warning"})
-    end
-})
+local InfoSection = SettingsTab:CreateSection("Info")
+InfoSection:CreateLabel("👤 Player: " .. LocalPlayer.Name)
+InfoSection:CreateLabel("🎮 Game: " .. tostring(game.PlaceId))
+InfoSection:CreateLabel("📊 Version: 3.0.0")
 
 -- ═══════════════════════════════════════
--- WELCOME NOTIFICATION
+-- WELCOME
 -- ═══════════════════════════════════════
 Window:Notify({
-    Title = "Showcase Loaded",
-    Content = "All components have been loaded successfully!",
+    Title = "Game Hub Loaded",
+    Content = "Welcome, " .. LocalPlayer.Name .. "!",
     Duration = 4,
     Type = "success"
 })
-
