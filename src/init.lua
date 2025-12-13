@@ -1,13 +1,12 @@
 --[[
     ╔══════════════════════════════════════════════════════════════════════╗
     ║                        VOGUE HUB UI LIBRARY                          ║
-    ║                            Version 2.0.1                             ║
+    ║                            Version 2.1.0                             ║
     ║                                                                      ║
     ║  Minimalist and elegant UI library for Roblox Luau                  ║
     ║                                                                      ║
     ║  GitHub: https://github.com/yourusername/vogue-hub-ui               ║
     ║  License: MIT                                                        ║
-    ║  Author: Your Name                                                   ║
     ║                                                                      ║
     ║  Usage:                                                              ║
     ║  local Lib = loadstring(game:HttpGet("RAW_GITHUB_URL"))()           ║
@@ -16,66 +15,48 @@
     ╚══════════════════════════════════════════════════════════════════════╝
 ]]
 
--- ════════════════════════════════════════════════════════════════════════
--- MAIN MODULE
--- ════════════════════════════════════════════════════════════════════════
-
 local VogueLib = {}
 VogueLib.__index = VogueLib
-VogueLib.Version = "2.0.1"
-VogueLib.Themes = {}
+VogueLib.Version = "2.1.0"
 
--- ════════════════════════════════════════════════════════════════════════
--- SERVICES
--- ════════════════════════════════════════════════════════════════════════
-
+-- Services
 local TweenService = game:GetService("TweenService")
 local UserInputService = game:GetService("UserInputService")
 local Players = game:GetService("Players")
-local RunService = game:GetService("RunService")
 local CoreGui = game:GetService("CoreGui")
 
 local Player = Players.LocalPlayer
 local Mouse = Player:GetMouse()
 
--- ════════════════════════════════════════════════════════════════════════
--- THEME SYSTEM
--- ════════════════════════════════════════════════════════════════════════
-
-VogueLib.Themes = {
+-- Theme Definitions
+local Themes = {
     Dark = {
         Background = Color3.fromRGB(15, 15, 15),
         Secondary = Color3.fromRGB(25, 25, 25),
         Tertiary = Color3.fromRGB(35, 35, 35),
         Accent = Color3.fromRGB(200, 170, 130),
         AccentDark = Color3.fromRGB(160, 130, 100),
-        AccentGlow = Color3.fromRGB(255, 220, 180),
         Text = Color3.fromRGB(255, 255, 255),
         TextDark = Color3.fromRGB(180, 180, 180),
         TextMuted = Color3.fromRGB(120, 120, 120),
         Divider = Color3.fromRGB(60, 60, 60),
         Success = Color3.fromRGB(100, 200, 100),
         Error = Color3.fromRGB(200, 100, 100),
-        Warning = Color3.fromRGB(200, 180, 100),
-        GradientStart = Color3.fromRGB(200, 170, 130),
-        GradientEnd = Color3.fromRGB(160, 130, 100)
+        Warning = Color3.fromRGB(200, 180, 100)
     },
     Light = {
         Background = Color3.fromRGB(245, 245, 245),
         Secondary = Color3.fromRGB(235, 235, 235),
-        Tertiary = Color3.fromRGB(225, 225, 225),
+        Tertiary = Color3.fromRGB(220, 220, 220),
         Accent = Color3.fromRGB(180, 140, 100),
         AccentDark = Color3.fromRGB(140, 100, 70),
-        AccentGlow = Color3.fromRGB(220, 180, 140),
         Text = Color3.fromRGB(30, 30, 30),
         TextDark = Color3.fromRGB(80, 80, 80),
         TextMuted = Color3.fromRGB(140, 140, 140),
         Divider = Color3.fromRGB(200, 200, 200),
         Success = Color3.fromRGB(80, 180, 80),
         Error = Color3.fromRGB(200, 80, 80),
-        Warning = Color3.fromRGB(200, 160, 80),
-        GradientStart = Color3.fromRGB(180, 140, 100),
-        GradientEnd = Color3.fromRGB(140, 100, 70)
+        Warning = Color3.fromRGB(200, 160, 80)
     },
     Ocean = {
         Background = Color3.fromRGB(15, 20, 30),
@@ -83,16 +64,13 @@ VogueLib.Themes = {
         Tertiary = Color3.fromRGB(35, 50, 70),
         Accent = Color3.fromRGB(100, 180, 220),
         AccentDark = Color3.fromRGB(70, 140, 180),
-        AccentGlow = Color3.fromRGB(150, 220, 255),
         Text = Color3.fromRGB(255, 255, 255),
         TextDark = Color3.fromRGB(180, 190, 200),
         TextMuted = Color3.fromRGB(120, 140, 160),
         Divider = Color3.fromRGB(50, 70, 90),
         Success = Color3.fromRGB(100, 200, 150),
         Error = Color3.fromRGB(220, 100, 120),
-        Warning = Color3.fromRGB(220, 180, 100),
-        GradientStart = Color3.fromRGB(100, 180, 220),
-        GradientEnd = Color3.fromRGB(70, 140, 180)
+        Warning = Color3.fromRGB(220, 180, 100)
     },
     Purple = {
         Background = Color3.fromRGB(20, 15, 25),
@@ -100,16 +78,13 @@ VogueLib.Themes = {
         Tertiary = Color3.fromRGB(50, 35, 65),
         Accent = Color3.fromRGB(180, 130, 220),
         AccentDark = Color3.fromRGB(140, 90, 180),
-        AccentGlow = Color3.fromRGB(220, 180, 255),
         Text = Color3.fromRGB(255, 255, 255),
         TextDark = Color3.fromRGB(190, 180, 200),
         TextMuted = Color3.fromRGB(140, 120, 160),
         Divider = Color3.fromRGB(70, 50, 90),
         Success = Color3.fromRGB(130, 200, 130),
         Error = Color3.fromRGB(220, 100, 130),
-        Warning = Color3.fromRGB(220, 180, 100),
-        GradientStart = Color3.fromRGB(180, 130, 220),
-        GradientEnd = Color3.fromRGB(140, 90, 180)
+        Warning = Color3.fromRGB(220, 180, 100)
     },
     Rose = {
         Background = Color3.fromRGB(25, 15, 20),
@@ -117,25 +92,17 @@ VogueLib.Themes = {
         Tertiary = Color3.fromRGB(55, 35, 50),
         Accent = Color3.fromRGB(220, 130, 160),
         AccentDark = Color3.fromRGB(180, 90, 120),
-        AccentGlow = Color3.fromRGB(255, 180, 200),
         Text = Color3.fromRGB(255, 255, 255),
         TextDark = Color3.fromRGB(200, 180, 190),
         TextMuted = Color3.fromRGB(160, 120, 140),
         Divider = Color3.fromRGB(90, 50, 70),
         Success = Color3.fromRGB(130, 200, 150),
         Error = Color3.fromRGB(220, 100, 100),
-        Warning = Color3.fromRGB(220, 180, 100),
-        GradientStart = Color3.fromRGB(220, 130, 160),
-        GradientEnd = Color3.fromRGB(180, 90, 120)
+        Warning = Color3.fromRGB(220, 180, 100)
     }
 }
 
-VogueLib.CurrentTheme = "Dark"
-
--- ════════════════════════════════════════════════════════════════════════
--- UTILITIES
--- ════════════════════════════════════════════════════════════════════════
-
+-- Utility Functions
 local function Create(className, properties)
     local instance = Instance.new(className)
     for prop, value in pairs(properties) do
@@ -150,135 +117,94 @@ local function Create(className, properties)
 end
 
 local function Tween(instance, properties, duration, style, direction)
-    local tweenInfo = TweenInfo.new(
-        duration or 0.2,
-        style or Enum.EasingStyle.Quad,
-        direction or Enum.EasingDirection.Out
+    local tween = TweenService:Create(
+        instance,
+        TweenInfo.new(duration or 0.2, style or Enum.EasingStyle.Quad, direction or Enum.EasingDirection.Out),
+        properties
     )
-    local tween = TweenService:Create(instance, tweenInfo, properties)
     tween:Play()
     return tween
 end
 
 local function AddCorner(parent, radius)
-    return Create("UICorner", {
-        CornerRadius = UDim.new(0, radius or 6),
+    return Create("UICorner", {CornerRadius = UDim.new(0, radius or 6), Parent = parent})
+end
+
+local function AddStroke(parent, color, thickness)
+    return Create("UIStroke", {Color = color, Thickness = thickness or 1, Parent = parent})
+end
+
+local function AddPadding(parent, top, bottom, left, right)
+    return Create("UIPadding", {
+        PaddingTop = UDim.new(0, top or 0),
+        PaddingBottom = UDim.new(0, bottom or 0),
+        PaddingLeft = UDim.new(0, left or 0),
+        PaddingRight = UDim.new(0, right or 0),
         Parent = parent
     })
 end
 
-local function AddStroke(parent, color, thickness, transparency)
-    return Create("UIStroke", {
-        Color = color,
-        Thickness = thickness or 1,
-        Transparency = transparency or 0,
-        Parent = parent
-    })
-end
-
-local function AddGradient(parent, startColor, endColor, rotation)
-    return Create("UIGradient", {
-        Color = ColorSequence.new({
-            ColorSequenceKeypoint.new(0, startColor),
-            ColorSequenceKeypoint.new(1, endColor)
-        }),
-        Rotation = rotation or 45,
-        Parent = parent
-    })
-end
-
--- ════════════════════════════════════════════════════════════════════════
--- THEME FUNCTIONS
--- ════════════════════════════════════════════════════════════════════════
-
-function VogueLib:SetTheme(themeName)
-    if VogueLib.Themes[themeName] then
-        VogueLib.CurrentTheme = themeName
-        return true
-    end
-    return false
-end
-
+-- Library Functions
 function VogueLib:GetThemes()
-    local themeNames = {}
-    for name, _ in pairs(VogueLib.Themes) do
-        table.insert(themeNames, name)
+    local names = {}
+    for name in pairs(Themes) do
+        table.insert(names, name)
     end
-    return themeNames
+    return names
 end
 
-function VogueLib:CreateCustomTheme(name, colors)
-    VogueLib.Themes[name] = colors
+function VogueLib:AddTheme(name, colors)
+    Themes[name] = colors
 end
 
 -- ════════════════════════════════════════════════════════════════════════
--- CREATE WINDOW FUNCTION
+-- CREATE WINDOW
 -- ════════════════════════════════════════════════════════════════════════
 
 function VogueLib:CreateWindow(config)
     config = config or {}
     local windowTitle = config.Title or "VOGUE HUB"
     local windowSize = config.Size or UDim2.new(0, 550, 0, 400)
-    local themeName = config.Theme or VogueLib.CurrentTheme or "Dark"
+    local themeName = config.Theme or "Dark"
     
-    -- Get theme colors
-    local Theme = VogueLib.Themes[themeName] or VogueLib.Themes.Dark
+    local Theme = Themes[themeName] or Themes.Dark
     
-    local Window = {}
-    Window.Tabs = {}
-    Window.ActiveTab = nil
-    Window.Notifications = {}
-    Window.Connections = {}
-    Window.Theme = Theme
+    local Window = {
+        Tabs = {},
+        ActiveTab = nil,
+        Notifications = {},
+        Connections = {},
+        ThemeObjects = {} -- Store objects that need theme updates
+    }
     
-    -- Local utility functions that use the window's theme
-    local function AddGlow(parent, color, size)
-        local glow = Create("ImageLabel", {
-            Name = "Glow",
-            Size = UDim2.new(1, size or 20, 1, size or 20),
-            Position = UDim2.new(0.5, 0, 0.5, 0),
-            AnchorPoint = Vector2.new(0.5, 0.5),
-            BackgroundTransparency = 1,
-            Image = "rbxassetid://5554236805",
-            ImageColor3 = color or Theme.AccentGlow,
-            ImageTransparency = 0.7,
-            ScaleType = Enum.ScaleType.Slice,
-            SliceCenter = Rect.new(23, 23, 277, 277),
-            ZIndex = parent.ZIndex - 1,
-            Parent = parent
-        })
-        return glow
+    -- Function to update theme dynamically
+    function Window:SetTheme(newThemeName)
+        local newTheme = Themes[newThemeName]
+        if not newTheme then return false end
+        
+        Theme = newTheme
+        
+        -- Update all stored theme objects
+        for _, obj in pairs(self.ThemeObjects) do
+            if obj.Instance and obj.Instance.Parent then
+                if obj.Property and obj.ThemeKey then
+                    obj.Instance[obj.Property] = Theme[obj.ThemeKey]
+                end
+            end
+        end
+        
+        return true
     end
     
-    local function CreateRipple(parent, position)
-        local ripple = Create("Frame", {
-            Name = "Ripple",
-            Size = UDim2.new(0, 0, 0, 0),
-            Position = UDim2.new(0, position.X - parent.AbsolutePosition.X, 0, position.Y - parent.AbsolutePosition.Y),
-            AnchorPoint = Vector2.new(0.5, 0.5),
-            BackgroundColor3 = Theme.Accent,
-            BackgroundTransparency = 0.7,
-            BorderSizePixel = 0,
-            ZIndex = parent.ZIndex + 1,
-            Parent = parent
+    local function RegisterThemeObject(instance, property, themeKey)
+        table.insert(Window.ThemeObjects, {
+            Instance = instance,
+            Property = property,
+            ThemeKey = themeKey
         })
-        AddCorner(ripple, 100)
-        
-        local maxSize = math.max(parent.AbsoluteSize.X, parent.AbsoluteSize.Y) * 2
-        Tween(ripple, {
-            Size = UDim2.new(0, maxSize, 0, maxSize),
-            BackgroundTransparency = 1
-        }, 0.5)
-        
-        task.delay(0.5, function()
-            ripple:Destroy()
-        end)
     end
     
-    -- ════════════════════════════════════════════════════════════════════
-    -- SCREEN GUI
-    -- ════════════════════════════════════════════════════════════════════
-    
+    -- Screen GUI
     local ScreenGui = Create("ScreenGui", {
         Name = "VogueHubUI",
         ResetOnSpawn = false,
@@ -286,24 +212,22 @@ function VogueLib:CreateWindow(config)
         Parent = CoreGui
     })
     
-    -- ════════════════════════════════════════════════════════════════════
-    -- MAIN FRAME
-    -- ════════════════════════════════════════════════════════════════════
-    
+    -- Main Frame
     local MainFrame = Create("Frame", {
         Name = "MainFrame",
         Size = windowSize,
         Position = UDim2.new(0.5, -windowSize.X.Offset/2, 0.5, -windowSize.Y.Offset/2),
         BackgroundColor3 = Theme.Background,
         BorderSizePixel = 0,
-        ClipsDescendants = false,
         Parent = ScreenGui
     })
     AddCorner(MainFrame, 10)
-    AddStroke(MainFrame, Theme.Divider, 1)
+    local mainStroke = AddStroke(MainFrame, Theme.Divider, 1)
+    RegisterThemeObject(MainFrame, "BackgroundColor3", "Background")
+    RegisterThemeObject(mainStroke, "Color", "Divider")
     
     -- Shadow
-    local Shadow = Create("ImageLabel", {
+    Create("ImageLabel", {
         Name = "Shadow",
         Size = UDim2.new(1, 40, 1, 40),
         Position = UDim2.new(0, -20, 0, -20),
@@ -317,7 +241,7 @@ function VogueLib:CreateWindow(config)
         Parent = MainFrame
     })
     
-    -- Accent line at top
+    -- Accent Line
     local AccentLine = Create("Frame", {
         Name = "AccentLine",
         Size = UDim2.new(1, -20, 0, 3),
@@ -327,22 +251,17 @@ function VogueLib:CreateWindow(config)
         Parent = MainFrame
     })
     AddCorner(AccentLine, 2)
-    AddGradient(AccentLine, Theme.GradientStart, Theme.GradientEnd, 0)
-
-    -- ════════════════════════════════════════════════════════════════════
-    -- HEADER
-    -- ════════════════════════════════════════════════════════════════════
+    RegisterThemeObject(AccentLine, "BackgroundColor3", "Accent")
     
+    -- Header
     local Header = Create("Frame", {
         Name = "Header",
         Size = UDim2.new(1, 0, 0, 50),
         Position = UDim2.new(0, 0, 0, 3),
         BackgroundTransparency = 1,
-        BorderSizePixel = 0,
         Parent = MainFrame
     })
     
-    -- Logo
     local Logo = Create("TextLabel", {
         Name = "Logo",
         Size = UDim2.new(0, 200, 1, 0),
@@ -355,10 +274,10 @@ function VogueLib:CreateWindow(config)
         TextXAlignment = Enum.TextXAlignment.Left,
         Parent = Header
     })
+    RegisterThemeObject(Logo, "TextColor3", "Accent")
     
-    -- Header divider
+    -- Header Divider
     local HeaderDivider = Create("Frame", {
-        Name = "HeaderDivider",
         Size = UDim2.new(1, -40, 0, 1),
         Position = UDim2.new(0, 20, 1, -1),
         BackgroundColor3 = Theme.Divider,
@@ -366,13 +285,12 @@ function VogueLib:CreateWindow(config)
         BorderSizePixel = 0,
         Parent = Header
     })
+    RegisterThemeObject(HeaderDivider, "BackgroundColor3", "Divider")
     
-    -- Close button
+    -- Close Button
     local CloseButton = Create("TextButton", {
-        Name = "CloseButton",
         Size = UDim2.new(0, 30, 0, 30),
         Position = UDim2.new(1, -40, 0, 10),
-        BackgroundColor3 = Theme.Error,
         BackgroundTransparency = 1,
         Text = "×",
         TextColor3 = Theme.TextDark,
@@ -381,15 +299,14 @@ function VogueLib:CreateWindow(config)
         Parent = Header
     })
     AddCorner(CloseButton, 6)
+    RegisterThemeObject(CloseButton, "TextColor3", "TextDark")
     
     CloseButton.MouseEnter:Connect(function()
-        Tween(CloseButton, {BackgroundTransparency = 0.8, TextColor3 = Theme.Error}, 0.2)
+        Tween(CloseButton, {TextColor3 = Theme.Error}, 0.2)
     end)
-    
     CloseButton.MouseLeave:Connect(function()
-        Tween(CloseButton, {BackgroundTransparency = 1, TextColor3 = Theme.TextDark}, 0.2)
+        Tween(CloseButton, {TextColor3 = Theme.TextDark}, 0.2)
     end)
-    
     CloseButton.MouseButton1Click:Connect(function()
         for _, conn in pairs(Window.Connections) do
             if conn then conn:Disconnect() end
@@ -399,12 +316,10 @@ function VogueLib:CreateWindow(config)
         ScreenGui:Destroy()
     end)
     
-    -- Minimize button
+    -- Minimize Button
     local MinimizeButton = Create("TextButton", {
-        Name = "MinimizeButton",
         Size = UDim2.new(0, 30, 0, 30),
         Position = UDim2.new(1, -75, 0, 10),
-        BackgroundColor3 = Theme.Warning,
         BackgroundTransparency = 1,
         Text = "—",
         TextColor3 = Theme.TextDark,
@@ -413,31 +328,21 @@ function VogueLib:CreateWindow(config)
         Parent = Header
     })
     AddCorner(MinimizeButton, 6)
+    RegisterThemeObject(MinimizeButton, "TextColor3", "TextDark")
     
     local Minimized = false
-    local OriginalSize = windowSize
-    
     MinimizeButton.MouseEnter:Connect(function()
-        Tween(MinimizeButton, {BackgroundTransparency = 0.8, TextColor3 = Theme.Warning}, 0.2)
+        Tween(MinimizeButton, {TextColor3 = Theme.Accent}, 0.2)
     end)
-    
     MinimizeButton.MouseLeave:Connect(function()
-        Tween(MinimizeButton, {BackgroundTransparency = 1, TextColor3 = Theme.TextDark}, 0.2)
+        Tween(MinimizeButton, {TextColor3 = Theme.TextDark}, 0.2)
     end)
-    
     MinimizeButton.MouseButton1Click:Connect(function()
         Minimized = not Minimized
-        if Minimized then
-            Tween(MainFrame, {Size = UDim2.new(0, windowSize.X.Offset, 0, 53)}, 0.3, Enum.EasingStyle.Back)
-        else
-            Tween(MainFrame, {Size = OriginalSize}, 0.3, Enum.EasingStyle.Back)
-        end
+        Tween(MainFrame, {Size = Minimized and UDim2.new(0, windowSize.X.Offset, 0, 53) or windowSize}, 0.3, Enum.EasingStyle.Back)
     end)
     
-    -- ════════════════════════════════════════════════════════════════════
-    -- TAB BAR
-    -- ════════════════════════════════════════════════════════════════════
-    
+    -- Tab Bar
     local TabBar = Create("Frame", {
         Name = "TabBar",
         Size = UDim2.new(1, -40, 0, 35),
@@ -447,14 +352,13 @@ function VogueLib:CreateWindow(config)
         Parent = MainFrame
     })
     
-    local TabList = Create("UIListLayout", {
+    Create("UIListLayout", {
         FillDirection = Enum.FillDirection.Horizontal,
-        HorizontalAlignment = Enum.HorizontalAlignment.Left,
         Padding = UDim.new(0, 5),
         Parent = TabBar
     })
     
-    -- Sliding indicator
+    -- Tab Indicator
     local TabIndicator = Create("Frame", {
         Name = "TabIndicator",
         Size = UDim2.new(0, 0, 0, 3),
@@ -465,11 +369,10 @@ function VogueLib:CreateWindow(config)
         Parent = TabBar
     })
     AddCorner(TabIndicator, 2)
-    AddGradient(TabIndicator, Theme.GradientStart, Theme.GradientEnd, 0)
+    RegisterThemeObject(TabIndicator, "BackgroundColor3", "Accent")
     
-    -- Tab divider
+    -- Tab Divider
     local TabDivider = Create("Frame", {
-        Name = "TabDivider",
         Size = UDim2.new(1, -40, 0, 1),
         Position = UDim2.new(0, 20, 0, 95),
         BackgroundColor3 = Theme.Divider,
@@ -477,11 +380,9 @@ function VogueLib:CreateWindow(config)
         BorderSizePixel = 0,
         Parent = MainFrame
     })
+    RegisterThemeObject(TabDivider, "BackgroundColor3", "Divider")
     
-    -- ════════════════════════════════════════════════════════════════════
-    -- CONTENT CONTAINER
-    -- ════════════════════════════════════════════════════════════════════
-    
+    -- Content Container
     local ContentContainer = Create("Frame", {
         Name = "ContentContainer",
         Size = UDim2.new(1, -40, 1, -115),
@@ -491,52 +392,31 @@ function VogueLib:CreateWindow(config)
         Parent = MainFrame
     })
     
-    -- ════════════════════════════════════════════════════════════════════
-    -- DRAG FUNCTIONALITY
-    -- ════════════════════════════════════════════════════════════════════
-    
+    -- Drag
     local Dragging, DragStart, StartPos
-    
     Header.InputBegan:Connect(function(input)
-        if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+        if input.UserInputType == Enum.UserInputType.MouseButton1 then
             Dragging = true
             DragStart = input.Position
             StartPos = MainFrame.Position
         end
     end)
-    
     Header.InputEnded:Connect(function(input)
-        if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+        if input.UserInputType == Enum.UserInputType.MouseButton1 then
             Dragging = false
         end
     end)
     
-    local dragConnection = UserInputService.InputChanged:Connect(function(input)
-        if Dragging and (input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch) then
+    local dragConn = UserInputService.InputChanged:Connect(function(input)
+        if Dragging and input.UserInputType == Enum.UserInputType.MouseMovement then
             local Delta = input.Position - DragStart
-            MainFrame.Position = UDim2.new(
-                StartPos.X.Scale, StartPos.X.Offset + Delta.X,
-                StartPos.Y.Scale, StartPos.Y.Offset + Delta.Y
-            )
+            MainFrame.Position = UDim2.new(StartPos.X.Scale, StartPos.X.Offset + Delta.X, StartPos.Y.Scale, StartPos.Y.Offset + Delta.Y)
         end
     end)
-    table.insert(Window.Connections, dragConnection)
-    
-    -- ════════════════════════════════════════════════════════════════════
-    -- UPDATE INDICATOR FUNCTION
-    -- ════════════════════════════════════════════════════════════════════
-    
-    local function UpdateTabIndicator(tabButton)
-        if tabButton then
-            Tween(TabIndicator, {
-                Size = UDim2.new(0, tabButton.AbsoluteSize.X, 0, 3),
-                Position = UDim2.new(0, tabButton.AbsolutePosition.X - TabBar.AbsolutePosition.X, 1, -3)
-            }, 0.3, Enum.EasingStyle.Quint)
-        end
-    end
+    table.insert(Window.Connections, dragConn)
 
     -- ════════════════════════════════════════════════════════════════════
-    -- CREATE TAB FUNCTION
+    -- CREATE TAB
     -- ════════════════════════════════════════════════════════════════════
     
     function Window:CreateTab(tabConfig)
@@ -544,91 +424,70 @@ function VogueLib:CreateWindow(config)
         local tabName = tabConfig.Name or "Tab"
         local tabIcon = tabConfig.Icon or ""
         
-        local Tab = {}
-        Tab.Elements = {}
+        local Tab = {Elements = {}}
         
-        -- Tab button
         local TabButton = Create("TextButton", {
-            Name = tabName .. "Tab",
+            Name = tabName,
             Size = UDim2.new(0, 0, 1, 0),
             AutomaticSize = Enum.AutomaticSize.X,
             BackgroundTransparency = 1,
             Text = "",
             Parent = TabBar
         })
-        
-        local TabPadding = Create("UIPadding", {
-            PaddingLeft = UDim.new(0, 15),
-            PaddingRight = UDim.new(0, 15),
-            Parent = TabButton
-        })
+        AddPadding(TabButton, 0, 0, 15, 15)
         
         local displayText = tabIcon ~= "" and (tabIcon .. "  " .. string.upper(tabName)) or string.upper(tabName)
-        
         local TabLabel = Create("TextLabel", {
-            Name = "Label",
             Size = UDim2.new(1, 0, 1, 0),
             BackgroundTransparency = 1,
             Text = displayText,
             TextColor3 = Theme.TextDark,
             TextSize = 11,
             Font = Enum.Font.GothamBold,
-            TextXAlignment = Enum.TextXAlignment.Center,
             Parent = TabButton
         })
+        RegisterThemeObject(TabLabel, "TextColor3", "TextDark")
         
-        -- Tab content
         local TabContent = Create("ScrollingFrame", {
-            Name = tabName .. "Content",
+            Name = tabName,
             Size = UDim2.new(1, 0, 1, 0),
             BackgroundTransparency = 1,
             BorderSizePixel = 0,
             ScrollBarThickness = 4,
             ScrollBarImageColor3 = Theme.Accent,
-            ScrollBarImageTransparency = 0.3,
             CanvasSize = UDim2.new(0, 0, 0, 0),
             Visible = false,
             Parent = ContentContainer
         })
+        RegisterThemeObject(TabContent, "ScrollBarImageColor3", "Accent")
         
-        local ContentList = Create("UIListLayout", {
-            Padding = UDim.new(0, 10),
-            Parent = TabContent
-        })
-        
-        local ContentPadding = Create("UIPadding", {
-            PaddingTop = UDim.new(0, 5),
-            PaddingRight = UDim.new(0, 8),
-            PaddingBottom = UDim.new(0, 5),
-            Parent = TabContent
-        })
+        local ContentList = Create("UIListLayout", {Padding = UDim.new(0, 10), Parent = TabContent})
+        AddPadding(TabContent, 5, 5, 0, 8)
         
         ContentList:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(function()
             TabContent.CanvasSize = UDim2.new(0, 0, 0, ContentList.AbsoluteContentSize.Y + 15)
         end)
         
         local function ActivateTab()
-            for _, tab in pairs(Window.Tabs) do
-                tab.Content.Visible = false
-                Tween(tab.Label, {TextColor3 = Theme.TextDark}, 0.2)
+            for _, t in pairs(Window.Tabs) do
+                t.Content.Visible = false
+                t.Label.TextColor3 = Theme.TextDark
             end
             TabContent.Visible = true
-            Tween(TabLabel, {TextColor3 = Theme.Text}, 0.2)
-            UpdateTabIndicator(TabButton)
+            TabLabel.TextColor3 = Theme.Text
+            Tween(TabIndicator, {
+                Size = UDim2.new(0, TabButton.AbsoluteSize.X, 0, 3),
+                Position = UDim2.new(0, TabButton.AbsolutePosition.X - TabBar.AbsolutePosition.X, 1, -3)
+            }, 0.3, Enum.EasingStyle.Quint)
             Window.ActiveTab = Tab
         end
         
-        TabButton.MouseButton1Click:Connect(function()
-            ActivateTab()
-            CreateRipple(TabButton, Vector2.new(Mouse.X, Mouse.Y))
-        end)
-        
+        TabButton.MouseButton1Click:Connect(ActivateTab)
         TabButton.MouseEnter:Connect(function()
             if Window.ActiveTab ~= Tab then
                 Tween(TabLabel, {TextColor3 = Theme.Accent}, 0.2)
             end
         end)
-        
         TabButton.MouseLeave:Connect(function()
             if Window.ActiveTab ~= Tab then
                 Tween(TabLabel, {TextColor3 = Theme.TextDark}, 0.2)
@@ -652,7 +511,7 @@ function VogueLib:CreateWindow(config)
             local Section = {}
             
             local SectionFrame = Create("Frame", {
-                Name = sectionName .. "Section",
+                Name = sectionName,
                 Size = UDim2.new(1, -5, 0, 0),
                 AutomaticSize = Enum.AutomaticSize.Y,
                 BackgroundColor3 = Theme.Secondary,
@@ -660,18 +519,13 @@ function VogueLib:CreateWindow(config)
                 Parent = TabContent
             })
             AddCorner(SectionFrame, 8)
-            AddStroke(SectionFrame, Theme.Divider, 1, 0.5)
-            
-            local SectionPadding = Create("UIPadding", {
-                PaddingTop = UDim.new(0, 14),
-                PaddingBottom = UDim.new(0, 14),
-                PaddingLeft = UDim.new(0, 15),
-                PaddingRight = UDim.new(0, 15),
-                Parent = SectionFrame
-            })
+            local sectionStroke = AddStroke(SectionFrame, Theme.Divider, 1)
+            sectionStroke.Transparency = 0.5
+            AddPadding(SectionFrame, 14, 14, 15, 15)
+            RegisterThemeObject(SectionFrame, "BackgroundColor3", "Secondary")
+            RegisterThemeObject(sectionStroke, "Color", "Divider")
             
             local SectionTitle = Create("TextLabel", {
-                Name = "Title",
                 Size = UDim2.new(1, 0, 0, 20),
                 BackgroundTransparency = 1,
                 Text = string.upper(sectionName),
@@ -681,9 +535,9 @@ function VogueLib:CreateWindow(config)
                 TextXAlignment = Enum.TextXAlignment.Left,
                 Parent = SectionFrame
             })
+            RegisterThemeObject(SectionTitle, "TextColor3", "Accent")
             
             local SectionAccent = Create("Frame", {
-                Name = "Accent",
                 Size = UDim2.new(0, 3, 0, 14),
                 Position = UDim2.new(0, -15, 0, 3),
                 BackgroundColor3 = Theme.Accent,
@@ -691,20 +545,16 @@ function VogueLib:CreateWindow(config)
                 Parent = SectionTitle
             })
             AddCorner(SectionAccent, 2)
+            RegisterThemeObject(SectionAccent, "BackgroundColor3", "Accent")
             
             local SectionContent = Create("Frame", {
-                Name = "Content",
                 Size = UDim2.new(1, 0, 0, 0),
                 Position = UDim2.new(0, 0, 0, 28),
                 AutomaticSize = Enum.AutomaticSize.Y,
                 BackgroundTransparency = 1,
                 Parent = SectionFrame
             })
-            
-            local SectionList = Create("UIListLayout", {
-                Padding = UDim.new(0, 8),
-                Parent = SectionContent
-            })
+            Create("UIListLayout", {Padding = UDim.new(0, 8), Parent = SectionContent})
             
             Section.Frame = SectionFrame
             Section.Content = SectionContent
@@ -713,35 +563,34 @@ function VogueLib:CreateWindow(config)
             -- BUTTON
             -- ════════════════════════════════════════════════════════════
             
-            function Section:CreateButton(buttonConfig)
-                buttonConfig = buttonConfig or {}
-                local buttonName = buttonConfig.Name or "Button"
-                local buttonIcon = buttonConfig.Icon or ""
-                local callback = buttonConfig.Callback or function() end
+            function Section:CreateButton(cfg)
+                cfg = cfg or {}
+                local name = cfg.Name or "Button"
+                local icon = cfg.Icon or ""
+                local callback = cfg.Callback or function() end
                 
-                local ButtonFrame = Create("Frame", {
-                    Name = buttonName,
+                local Frame = Create("Frame", {
                     Size = UDim2.new(1, 0, 0, 38),
                     BackgroundTransparency = 1,
                     Parent = SectionContent
                 })
                 
                 local Button = Create("TextButton", {
-                    Name = "Button",
                     Size = UDim2.new(1, 0, 1, 0),
                     BackgroundColor3 = Theme.Background,
                     BorderSizePixel = 0,
                     Text = "",
                     ClipsDescendants = true,
-                    Parent = ButtonFrame
+                    Parent = Frame
                 })
                 AddCorner(Button, 6)
-                AddStroke(Button, Theme.Divider, 1, 0.5)
+                local btnStroke = AddStroke(Button, Theme.Divider, 1)
+                btnStroke.Transparency = 0.5
+                RegisterThemeObject(Button, "BackgroundColor3", "Background")
+                RegisterThemeObject(btnStroke, "Color", "Divider")
                 
-                local displayText = buttonIcon ~= "" and (buttonIcon .. "  " .. buttonName) or buttonName
-                
-                local ButtonLabel = Create("TextLabel", {
-                    Name = "Label",
+                local displayText = icon ~= "" and (icon .. "  " .. name) or name
+                local Label = Create("TextLabel", {
                     Size = UDim2.new(1, -40, 1, 0),
                     Position = UDim2.new(0, 12, 0, 0),
                     BackgroundTransparency = 1,
@@ -752,9 +601,9 @@ function VogueLib:CreateWindow(config)
                     TextXAlignment = Enum.TextXAlignment.Left,
                     Parent = Button
                 })
+                RegisterThemeObject(Label, "TextColor3", "Text")
                 
-                local ButtonArrow = Create("TextLabel", {
-                    Name = "Arrow",
+                local Arrow = Create("TextLabel", {
                     Size = UDim2.new(0, 20, 1, 0),
                     Position = UDim2.new(1, -28, 0, 0),
                     BackgroundTransparency = 1,
@@ -764,55 +613,51 @@ function VogueLib:CreateWindow(config)
                     Font = Enum.Font.GothamBold,
                     Parent = Button
                 })
+                RegisterThemeObject(Arrow, "TextColor3", "Accent")
                 
                 Button.MouseEnter:Connect(function()
                     Tween(Button, {BackgroundColor3 = Theme.Tertiary}, 0.2)
-                    Tween(ButtonArrow, {Position = UDim2.new(1, -24, 0, 0)}, 0.2)
                 end)
-                
                 Button.MouseLeave:Connect(function()
                     Tween(Button, {BackgroundColor3 = Theme.Background}, 0.2)
-                    Tween(ButtonArrow, {Position = UDim2.new(1, -28, 0, 0)}, 0.2)
                 end)
-                
                 Button.MouseButton1Click:Connect(function()
-                    CreateRipple(Button, Vector2.new(Mouse.X, Mouse.Y))
                     Tween(Button, {BackgroundColor3 = Theme.Accent}, 0.1)
                     task.wait(0.1)
                     Tween(Button, {BackgroundColor3 = Theme.Background}, 0.2)
                     callback()
                 end)
                 
-                return ButtonFrame
+                return Frame
             end
             
             -- ════════════════════════════════════════════════════════════
             -- TOGGLE
             -- ════════════════════════════════════════════════════════════
             
-            function Section:CreateToggle(toggleConfig)
-                toggleConfig = toggleConfig or {}
-                local toggleName = toggleConfig.Name or "Toggle"
-                local toggleIcon = toggleConfig.Icon or ""
-                local default = toggleConfig.Default or false
-                local callback = toggleConfig.Callback or function() end
+            function Section:CreateToggle(cfg)
+                cfg = cfg or {}
+                local name = cfg.Name or "Toggle"
+                local icon = cfg.Icon or ""
+                local default = cfg.Default or false
+                local callback = cfg.Callback or function() end
                 
                 local Toggled = default
                 
-                local ToggleFrame = Create("Frame", {
-                    Name = toggleName,
+                local Frame = Create("Frame", {
                     Size = UDim2.new(1, 0, 0, 38),
                     BackgroundColor3 = Theme.Background,
                     BorderSizePixel = 0,
                     Parent = SectionContent
                 })
-                AddCorner(ToggleFrame, 6)
-                AddStroke(ToggleFrame, Theme.Divider, 1, 0.5)
+                AddCorner(Frame, 6)
+                local frameStroke = AddStroke(Frame, Theme.Divider, 1)
+                frameStroke.Transparency = 0.5
+                RegisterThemeObject(Frame, "BackgroundColor3", "Background")
+                RegisterThemeObject(frameStroke, "Color", "Divider")
                 
-                local displayText = toggleIcon ~= "" and (toggleIcon .. "  " .. toggleName) or toggleName
-                
-                local ToggleLabel = Create("TextLabel", {
-                    Name = "Label",
+                local displayText = icon ~= "" and (icon .. "  " .. name) or name
+                local Label = Create("TextLabel", {
                     Size = UDim2.new(1, -65, 1, 0),
                     Position = UDim2.new(0, 12, 0, 0),
                     BackgroundTransparency = 1,
@@ -821,101 +666,87 @@ function VogueLib:CreateWindow(config)
                     TextSize = 12,
                     Font = Enum.Font.Gotham,
                     TextXAlignment = Enum.TextXAlignment.Left,
-                    Parent = ToggleFrame
+                    Parent = Frame
                 })
+                RegisterThemeObject(Label, "TextColor3", "Text")
                 
-                local ToggleButton = Create("TextButton", {
-                    Name = "Toggle",
+                local ToggleBtn = Create("TextButton", {
                     Size = UDim2.new(0, 44, 0, 22),
                     Position = UDim2.new(1, -54, 0.5, -11),
                     BackgroundColor3 = Toggled and Theme.Accent or Theme.Background,
                     BorderSizePixel = 0,
                     Text = "",
-                    Parent = ToggleFrame
+                    Parent = Frame
                 })
-                AddCorner(ToggleButton, 11)
-                local toggleStroke = AddStroke(ToggleButton, Toggled and Theme.Accent or Theme.Divider, 1)
+                AddCorner(ToggleBtn, 11)
+                local toggleStroke = AddStroke(ToggleBtn, Toggled and Theme.Accent or Theme.Divider, 1)
                 
-                local ToggleCircle = Create("Frame", {
-                    Name = "Circle",
+                local Circle = Create("Frame", {
                     Size = UDim2.new(0, 16, 0, 16),
                     Position = Toggled and UDim2.new(1, -19, 0.5, -8) or UDim2.new(0, 3, 0.5, -8),
                     BackgroundColor3 = Theme.Text,
                     BorderSizePixel = 0,
-                    Parent = ToggleButton
+                    Parent = ToggleBtn
                 })
-                AddCorner(ToggleCircle, 8)
+                AddCorner(Circle, 8)
+                RegisterThemeObject(Circle, "BackgroundColor3", "Text")
                 
-                local function UpdateToggle()
-                    if Toggled then
-                        Tween(ToggleButton, {BackgroundColor3 = Theme.Accent}, 0.2)
-                        Tween(ToggleCircle, {Position = UDim2.new(1, -19, 0.5, -8)}, 0.2, Enum.EasingStyle.Back)
-                        Tween(toggleStroke, {Color = Theme.Accent}, 0.2)
-                    else
-                        Tween(ToggleButton, {BackgroundColor3 = Theme.Background}, 0.2)
-                        Tween(ToggleCircle, {Position = UDim2.new(0, 3, 0.5, -8)}, 0.2, Enum.EasingStyle.Back)
-                        Tween(toggleStroke, {Color = Theme.Divider}, 0.2)
-                    end
+                local function Update()
+                    Tween(ToggleBtn, {BackgroundColor3 = Toggled and Theme.Accent or Theme.Background}, 0.2)
+                    Tween(Circle, {Position = Toggled and UDim2.new(1, -19, 0.5, -8) or UDim2.new(0, 3, 0.5, -8)}, 0.2, Enum.EasingStyle.Back)
+                    Tween(toggleStroke, {Color = Toggled and Theme.Accent or Theme.Divider}, 0.2)
                 end
                 
-                ToggleButton.MouseButton1Click:Connect(function()
+                ToggleBtn.MouseButton1Click:Connect(function()
                     Toggled = not Toggled
-                    UpdateToggle()
+                    Update()
                     callback(Toggled)
                 end)
                 
-                ToggleFrame.MouseEnter:Connect(function()
-                    Tween(ToggleFrame, {BackgroundColor3 = Theme.Tertiary}, 0.2)
+                Frame.MouseEnter:Connect(function()
+                    Tween(Frame, {BackgroundColor3 = Theme.Tertiary}, 0.2)
+                end)
+                Frame.MouseLeave:Connect(function()
+                    Tween(Frame, {BackgroundColor3 = Theme.Background}, 0.2)
                 end)
                 
-                ToggleFrame.MouseLeave:Connect(function()
-                    Tween(ToggleFrame, {BackgroundColor3 = Theme.Background}, 0.2)
-                end)
-                
-                local ToggleAPI = {}
-                function ToggleAPI:Set(value)
-                    Toggled = value
-                    UpdateToggle()
-                    callback(Toggled)
-                end
-                function ToggleAPI:Get()
-                    return Toggled
-                end
-                
-                return ToggleAPI
+                local API = {}
+                function API:Set(v) Toggled = v; Update(); callback(Toggled) end
+                function API:Get() return Toggled end
+                return API
             end
 
             -- ════════════════════════════════════════════════════════════
             -- SLIDER
             -- ════════════════════════════════════════════════════════════
             
-            function Section:CreateSlider(sliderConfig)
-                sliderConfig = sliderConfig or {}
-                local sliderName = sliderConfig.Name or "Slider"
-                local sliderIcon = sliderConfig.Icon or ""
-                local min = sliderConfig.Min or 0
-                local max = sliderConfig.Max or 100
-                local default = sliderConfig.Default or min
-                local increment = sliderConfig.Increment or 1
-                local callback = sliderConfig.Callback or function() end
+            function Section:CreateSlider(cfg)
+                cfg = cfg or {}
+                local name = cfg.Name or "Slider"
+                local icon = cfg.Icon or ""
+                local min = cfg.Min or 0
+                local max = cfg.Max or 100
+                local default = cfg.Default or min
+                local increment = cfg.Increment or 1
+                local callback = cfg.Callback or function() end
                 
                 local Value = default
-                local SliderDragging = false
+                local Dragging = false
                 
-                local SliderFrame = Create("Frame", {
-                    Name = sliderName,
+                local Frame = Create("Frame", {
                     Size = UDim2.new(1, 0, 0, 55),
                     BackgroundColor3 = Theme.Background,
                     BorderSizePixel = 0,
                     Parent = SectionContent
                 })
-                AddCorner(SliderFrame, 6)
-                AddStroke(SliderFrame, Theme.Divider, 1, 0.5)
+                AddCorner(Frame, 6)
+                local frameStroke = AddStroke(Frame, Theme.Divider, 1)
+                frameStroke.Transparency = 0.5
+                RegisterThemeObject(Frame, "BackgroundColor3", "Background")
+                RegisterThemeObject(frameStroke, "Color", "Divider")
                 
-                local displayText = sliderIcon ~= "" and (sliderIcon .. "  " .. sliderName) or sliderName
-                
-                local SliderLabel = Create("TextLabel", {
-                    Name = "Label",
+                local displayText = icon ~= "" and (icon .. "  " .. name) or name
+                local Label = Create("TextLabel", {
                     Size = UDim2.new(1, -70, 0, 20),
                     Position = UDim2.new(0, 12, 0, 8),
                     BackgroundTransparency = 1,
@@ -924,11 +755,11 @@ function VogueLib:CreateWindow(config)
                     TextSize = 12,
                     Font = Enum.Font.Gotham,
                     TextXAlignment = Enum.TextXAlignment.Left,
-                    Parent = SliderFrame
+                    Parent = Frame
                 })
+                RegisterThemeObject(Label, "TextColor3", "Text")
                 
-                local SliderValue = Create("TextLabel", {
-                    Name = "Value",
+                local ValueLabel = Create("TextLabel", {
                     Size = UDim2.new(0, 55, 0, 20),
                     Position = UDim2.new(1, -62, 0, 8),
                     BackgroundColor3 = Theme.Tertiary,
@@ -937,133 +768,123 @@ function VogueLib:CreateWindow(config)
                     TextColor3 = Theme.Accent,
                     TextSize = 11,
                     Font = Enum.Font.GothamBold,
-                    Parent = SliderFrame
+                    Parent = Frame
                 })
-                AddCorner(SliderValue, 4)
+                AddCorner(ValueLabel, 4)
+                RegisterThemeObject(ValueLabel, "BackgroundColor3", "Tertiary")
+                RegisterThemeObject(ValueLabel, "TextColor3", "Accent")
                 
-                local SliderBar = Create("Frame", {
-                    Name = "Bar",
+                local Bar = Create("Frame", {
                     Size = UDim2.new(1, -24, 0, 8),
                     Position = UDim2.new(0, 12, 0, 36),
                     BackgroundColor3 = Theme.Tertiary,
                     BorderSizePixel = 0,
-                    Parent = SliderFrame
+                    Parent = Frame
                 })
-                AddCorner(SliderBar, 4)
+                AddCorner(Bar, 4)
+                RegisterThemeObject(Bar, "BackgroundColor3", "Tertiary")
                 
-                local SliderFill = Create("Frame", {
-                    Name = "Fill",
+                local Fill = Create("Frame", {
                     Size = UDim2.new((default - min) / (max - min), 0, 1, 0),
                     BackgroundColor3 = Theme.Accent,
                     BorderSizePixel = 0,
-                    Parent = SliderBar
+                    Parent = Bar
                 })
-                AddCorner(SliderFill, 4)
-                AddGradient(SliderFill, Theme.GradientStart, Theme.GradientEnd, 0)
+                AddCorner(Fill, 4)
+                RegisterThemeObject(Fill, "BackgroundColor3", "Accent")
                 
-                local SliderKnob = Create("Frame", {
-                    Name = "Knob",
+                local Knob = Create("Frame", {
                     Size = UDim2.new(0, 16, 0, 16),
                     Position = UDim2.new((default - min) / (max - min), -8, 0.5, -8),
                     BackgroundColor3 = Theme.Text,
                     BorderSizePixel = 0,
                     ZIndex = 2,
-                    Parent = SliderBar
+                    Parent = Bar
                 })
-                AddCorner(SliderKnob, 8)
-                AddStroke(SliderKnob, Theme.Accent, 2)
+                AddCorner(Knob, 8)
+                local knobStroke = AddStroke(Knob, Theme.Accent, 2)
+                RegisterThemeObject(Knob, "BackgroundColor3", "Text")
+                RegisterThemeObject(knobStroke, "Color", "Accent")
                 
-                local SliderButton = Create("TextButton", {
-                    Name = "Button",
+                local SliderBtn = Create("TextButton", {
                     Size = UDim2.new(1, 0, 1, 10),
                     Position = UDim2.new(0, 0, 0, -5),
                     BackgroundTransparency = 1,
                     Text = "",
-                    Parent = SliderBar
+                    Parent = Bar
                 })
                 
-                local function UpdateSlider(input)
-                    local percent = math.clamp((input.Position.X - SliderBar.AbsolutePosition.X) / SliderBar.AbsoluteSize.X, 0, 1)
-                    local rawValue = min + (max - min) * percent
-                    Value = math.floor(rawValue / increment + 0.5) * increment
+                local function Update(input)
+                    local percent = math.clamp((input.Position.X - Bar.AbsolutePosition.X) / Bar.AbsoluteSize.X, 0, 1)
+                    local raw = min + (max - min) * percent
+                    Value = math.floor(raw / increment + 0.5) * increment
                     Value = math.clamp(Value, min, max)
-                    local displayPercent = (Value - min) / (max - min)
-                    SliderValue.Text = tostring(Value)
-                    Tween(SliderFill, {Size = UDim2.new(displayPercent, 0, 1, 0)}, 0.05)
-                    Tween(SliderKnob, {Position = UDim2.new(displayPercent, -8, 0.5, -8)}, 0.05)
+                    local p = (Value - min) / (max - min)
+                    ValueLabel.Text = tostring(Value)
+                    Tween(Fill, {Size = UDim2.new(p, 0, 1, 0)}, 0.05)
+                    Tween(Knob, {Position = UDim2.new(p, -8, 0.5, -8)}, 0.05)
                     callback(Value)
                 end
                 
-                SliderButton.MouseButton1Down:Connect(function()
-                    SliderDragging = true
-                    Tween(SliderKnob, {Size = UDim2.new(0, 20, 0, 20), Position = UDim2.new(SliderKnob.Position.X.Scale, -10, 0.5, -10)}, 0.1)
+                SliderBtn.MouseButton1Down:Connect(function()
+                    Dragging = true
                 end)
                 
-                local sliderInputEndConn = UserInputService.InputEnded:Connect(function(input)
+                local endConn = UserInputService.InputEnded:Connect(function(input)
                     if input.UserInputType == Enum.UserInputType.MouseButton1 then
-                        if SliderDragging then
-                            SliderDragging = false
-                            local displayPercent = (Value - min) / (max - min)
-                            Tween(SliderKnob, {Size = UDim2.new(0, 16, 0, 16), Position = UDim2.new(displayPercent, -8, 0.5, -8)}, 0.1)
-                        end
+                        Dragging = false
                     end
                 end)
-                table.insert(Window.Connections, sliderInputEndConn)
+                table.insert(Window.Connections, endConn)
                 
-                local sliderInputChangeConn = UserInputService.InputChanged:Connect(function(input)
-                    if SliderDragging and input.UserInputType == Enum.UserInputType.MouseMovement then
-                        UpdateSlider(input)
+                local changeConn = UserInputService.InputChanged:Connect(function(input)
+                    if Dragging and input.UserInputType == Enum.UserInputType.MouseMovement then
+                        Update(input)
                     end
                 end)
-                table.insert(Window.Connections, sliderInputChangeConn)
+                table.insert(Window.Connections, changeConn)
                 
-                SliderButton.MouseButton1Click:Connect(function()
-                    UpdateSlider({Position = Vector3.new(Mouse.X, 0, 0)})
+                SliderBtn.MouseButton1Click:Connect(function()
+                    Update({Position = Vector3.new(Mouse.X, 0, 0)})
                 end)
                 
-                SliderFrame.MouseEnter:Connect(function()
-                    Tween(SliderFrame, {BackgroundColor3 = Theme.Tertiary}, 0.2)
+                Frame.MouseEnter:Connect(function()
+                    Tween(Frame, {BackgroundColor3 = Theme.Tertiary}, 0.2)
+                end)
+                Frame.MouseLeave:Connect(function()
+                    Tween(Frame, {BackgroundColor3 = Theme.Background}, 0.2)
                 end)
                 
-                SliderFrame.MouseLeave:Connect(function()
-                    Tween(SliderFrame, {BackgroundColor3 = Theme.Background}, 0.2)
-                end)
-                
-                local SliderAPI = {}
-                function SliderAPI:Set(value)
-                    Value = math.clamp(value, min, max)
-                    local percent = (Value - min) / (max - min)
-                    SliderValue.Text = tostring(Value)
-                    Tween(SliderFill, {Size = UDim2.new(percent, 0, 1, 0)}, 0.1)
-                    Tween(SliderKnob, {Position = UDim2.new(percent, -8, 0.5, -8)}, 0.1)
+                local API = {}
+                function API:Set(v)
+                    Value = math.clamp(v, min, max)
+                    local p = (Value - min) / (max - min)
+                    ValueLabel.Text = tostring(Value)
+                    Tween(Fill, {Size = UDim2.new(p, 0, 1, 0)}, 0.1)
+                    Tween(Knob, {Position = UDim2.new(p, -8, 0.5, -8)}, 0.1)
                     callback(Value)
                 end
-                function SliderAPI:Get()
-                    return Value
-                end
-                
-                return SliderAPI
+                function API:Get() return Value end
+                return API
             end
 
             -- ════════════════════════════════════════════════════════════
             -- DROPDOWN
             -- ════════════════════════════════════════════════════════════
             
-            function Section:CreateDropdown(dropdownConfig)
-                dropdownConfig = dropdownConfig or {}
-                local dropdownName = dropdownConfig.Name or "Dropdown"
-                local dropdownIcon = dropdownConfig.Icon or ""
-                local options = dropdownConfig.Options or {}
-                local default = dropdownConfig.Default or (options[1] or "Select...")
-                local callback = dropdownConfig.Callback or function() end
+            function Section:CreateDropdown(cfg)
+                cfg = cfg or {}
+                local name = cfg.Name or "Dropdown"
+                local icon = cfg.Icon or ""
+                local options = cfg.Options or {}
+                local default = cfg.Default or (options[1] or "Select...")
+                local callback = cfg.Callback or function() end
                 
                 local Selected = default
                 local Opened = false
-                local OptionHeight = 32
-                local OptionPadding = 4
+                local OptHeight = 32
                 
-                local DropdownFrame = Create("Frame", {
-                    Name = dropdownName,
+                local Frame = Create("Frame", {
                     Size = UDim2.new(1, 0, 0, 38),
                     BackgroundColor3 = Theme.Background,
                     BorderSizePixel = 0,
@@ -1071,22 +892,22 @@ function VogueLib:CreateWindow(config)
                     ZIndex = 2,
                     Parent = SectionContent
                 })
-                AddCorner(DropdownFrame, 6)
-                AddStroke(DropdownFrame, Theme.Divider, 1, 0.5)
+                AddCorner(Frame, 6)
+                local frameStroke = AddStroke(Frame, Theme.Divider, 1)
+                frameStroke.Transparency = 0.5
+                RegisterThemeObject(Frame, "BackgroundColor3", "Background")
+                RegisterThemeObject(frameStroke, "Color", "Divider")
                 
-                local DropdownHeader = Create("TextButton", {
-                    Name = "Header",
+                local Header = Create("TextButton", {
                     Size = UDim2.new(1, 0, 0, 38),
                     BackgroundTransparency = 1,
                     Text = "",
                     ZIndex = 2,
-                    Parent = DropdownFrame
+                    Parent = Frame
                 })
                 
-                local displayText = dropdownIcon ~= "" and (dropdownIcon .. "  " .. dropdownName) or dropdownName
-                
-                local DropdownLabel = Create("TextLabel", {
-                    Name = "Label",
+                local displayText = icon ~= "" and (icon .. "  " .. name) or name
+                local Label = Create("TextLabel", {
                     Size = UDim2.new(0.5, -10, 1, 0),
                     Position = UDim2.new(0, 12, 0, 0),
                     BackgroundTransparency = 1,
@@ -1096,11 +917,11 @@ function VogueLib:CreateWindow(config)
                     Font = Enum.Font.Gotham,
                     TextXAlignment = Enum.TextXAlignment.Left,
                     ZIndex = 2,
-                    Parent = DropdownHeader
+                    Parent = Header
                 })
+                RegisterThemeObject(Label, "TextColor3", "Text")
                 
-                local DropdownSelected = Create("TextLabel", {
-                    Name = "Selected",
+                local SelectedLabel = Create("TextLabel", {
                     Size = UDim2.new(0.5, -35, 1, 0),
                     Position = UDim2.new(0.5, 0, 0, 0),
                     BackgroundTransparency = 1,
@@ -1111,11 +932,11 @@ function VogueLib:CreateWindow(config)
                     TextXAlignment = Enum.TextXAlignment.Right,
                     TextTruncate = Enum.TextTruncate.AtEnd,
                     ZIndex = 2,
-                    Parent = DropdownHeader
+                    Parent = Header
                 })
+                RegisterThemeObject(SelectedLabel, "TextColor3", "Accent")
                 
-                local DropdownArrow = Create("TextLabel", {
-                    Name = "Arrow",
+                local Arrow = Create("TextLabel", {
                     Size = UDim2.new(0, 20, 1, 0),
                     Position = UDim2.new(1, -28, 0, 0),
                     BackgroundTransparency = 1,
@@ -1124,153 +945,123 @@ function VogueLib:CreateWindow(config)
                     TextSize = 10,
                     Font = Enum.Font.Gotham,
                     ZIndex = 2,
-                    Parent = DropdownHeader
+                    Parent = Header
                 })
+                RegisterThemeObject(Arrow, "TextColor3", "TextDark")
                 
-                local DropdownContent = Create("Frame", {
-                    Name = "Content",
+                local Content = Create("Frame", {
                     Size = UDim2.new(1, -16, 0, 0),
                     Position = UDim2.new(0, 8, 0, 44),
                     BackgroundTransparency = 1,
                     ZIndex = 2,
-                    Parent = DropdownFrame
+                    Parent = Frame
                 })
+                Create("UIListLayout", {Padding = UDim.new(0, 4), Parent = Content})
                 
-                local DropdownList = Create("UIListLayout", {
-                    Padding = UDim.new(0, OptionPadding),
-                    Parent = DropdownContent
-                })
-                
-                local function CreateOption(optionName)
-                    local Option = Create("TextButton", {
-                        Name = optionName,
-                        Size = UDim2.new(1, 0, 0, OptionHeight),
+                local function CreateOption(optName)
+                    local Opt = Create("TextButton", {
+                        Size = UDim2.new(1, 0, 0, OptHeight),
                         BackgroundColor3 = Theme.Tertiary,
                         BorderSizePixel = 0,
-                        Text = optionName,
-                        TextColor3 = optionName == Selected and Theme.Accent or Theme.Text,
+                        Text = optName,
+                        TextColor3 = optName == Selected and Theme.Accent or Theme.Text,
                         TextSize = 11,
                         Font = Enum.Font.Gotham,
                         ZIndex = 3,
-                        Parent = DropdownContent
+                        Parent = Content
                     })
-                    AddCorner(Option, 4)
+                    AddCorner(Opt, 4)
+                    RegisterThemeObject(Opt, "BackgroundColor3", "Tertiary")
                     
-                    Option.MouseEnter:Connect(function()
-                        Tween(Option, {BackgroundColor3 = Theme.Accent, TextColor3 = Theme.Background}, 0.2)
+                    Opt.MouseEnter:Connect(function()
+                        Tween(Opt, {BackgroundColor3 = Theme.Accent, TextColor3 = Theme.Background}, 0.2)
                     end)
-                    
-                    Option.MouseLeave:Connect(function()
-                        local textColor = optionName == Selected and Theme.Accent or Theme.Text
-                        Tween(Option, {BackgroundColor3 = Theme.Tertiary, TextColor3 = textColor}, 0.2)
+                    Opt.MouseLeave:Connect(function()
+                        Tween(Opt, {BackgroundColor3 = Theme.Tertiary, TextColor3 = optName == Selected and Theme.Accent or Theme.Text}, 0.2)
                     end)
-                    
-                    Option.MouseButton1Click:Connect(function()
-                        Selected = optionName
-                        DropdownSelected.Text = optionName
+                    Opt.MouseButton1Click:Connect(function()
+                        Selected = optName
+                        SelectedLabel.Text = optName
                         Opened = false
-                        Tween(DropdownFrame, {Size = UDim2.new(1, 0, 0, 38)}, 0.2, Enum.EasingStyle.Back)
-                        Tween(DropdownArrow, {Rotation = 0}, 0.2)
-                        
-                        for _, child in pairs(DropdownContent:GetChildren()) do
-                            if child:IsA("TextButton") then
-                                child.TextColor3 = child.Name == Selected and Theme.Accent or Theme.Text
+                        Tween(Frame, {Size = UDim2.new(1, 0, 0, 38)}, 0.2, Enum.EasingStyle.Back)
+                        Tween(Arrow, {Rotation = 0}, 0.2)
+                        for _, c in pairs(Content:GetChildren()) do
+                            if c:IsA("TextButton") then
+                                c.TextColor3 = c.Name == Selected and Theme.Accent or Theme.Text
                             end
                         end
-                        
-                        callback(optionName)
+                        callback(optName)
                     end)
-                    
-                    return Option
                 end
                 
-                for _, option in ipairs(options) do
-                    CreateOption(option)
+                for _, opt in ipairs(options) do
+                    CreateOption(opt)
                 end
                 
-                DropdownHeader.MouseButton1Click:Connect(function()
+                Header.MouseButton1Click:Connect(function()
                     Opened = not Opened
-                    if Opened then
-                        local contentHeight = #options * (OptionHeight + OptionPadding) + 10
-                        Tween(DropdownFrame, {Size = UDim2.new(1, 0, 0, 38 + contentHeight)}, 0.2, Enum.EasingStyle.Back)
-                        Tween(DropdownArrow, {Rotation = 180}, 0.2)
-                    else
-                        Tween(DropdownFrame, {Size = UDim2.new(1, 0, 0, 38)}, 0.2, Enum.EasingStyle.Back)
-                        Tween(DropdownArrow, {Rotation = 0}, 0.2)
-                    end
+                    local h = Opened and (38 + #options * (OptHeight + 4) + 10) or 38
+                    Tween(Frame, {Size = UDim2.new(1, 0, 0, h)}, 0.2, Enum.EasingStyle.Back)
+                    Tween(Arrow, {Rotation = Opened and 180 or 0}, 0.2)
                 end)
                 
-                DropdownHeader.MouseEnter:Connect(function()
-                    if not Opened then
-                        Tween(DropdownFrame, {BackgroundColor3 = Theme.Tertiary}, 0.2)
-                    end
+                Header.MouseEnter:Connect(function()
+                    if not Opened then Tween(Frame, {BackgroundColor3 = Theme.Tertiary}, 0.2) end
+                end)
+                Header.MouseLeave:Connect(function()
+                    if not Opened then Tween(Frame, {BackgroundColor3 = Theme.Background}, 0.2) end
                 end)
                 
-                DropdownHeader.MouseLeave:Connect(function()
-                    if not Opened then
-                        Tween(DropdownFrame, {BackgroundColor3 = Theme.Background}, 0.2)
-                    end
-                end)
-                
-                local DropdownAPI = {}
-                function DropdownAPI:Set(value)
-                    Selected = value
-                    DropdownSelected.Text = value
-                    for _, child in pairs(DropdownContent:GetChildren()) do
-                        if child:IsA("TextButton") then
-                            child.TextColor3 = child.Name == Selected and Theme.Accent or Theme.Text
+                local API = {}
+                function API:Set(v)
+                    Selected = v
+                    SelectedLabel.Text = v
+                    for _, c in pairs(Content:GetChildren()) do
+                        if c:IsA("TextButton") then
+                            c.TextColor3 = c.Name == Selected and Theme.Accent or Theme.Text
                         end
                     end
-                    callback(value)
+                    callback(v)
                 end
-                function DropdownAPI:Get()
-                    return Selected
-                end
-                function DropdownAPI:Refresh(newOptions)
-                    for _, child in pairs(DropdownContent:GetChildren()) do
-                        if child:IsA("TextButton") then
-                            child:Destroy()
-                        end
+                function API:Get() return Selected end
+                function API:Refresh(newOpts)
+                    for _, c in pairs(Content:GetChildren()) do
+                        if c:IsA("TextButton") then c:Destroy() end
                     end
-                    options = newOptions
-                    for _, option in ipairs(options) do
-                        CreateOption(option)
-                    end
-                    if Opened then
-                        local contentHeight = #options * (OptionHeight + OptionPadding) + 10
-                        DropdownFrame.Size = UDim2.new(1, 0, 0, 38 + contentHeight)
+                    options = newOpts
+                    for _, opt in ipairs(options) do
+                        CreateOption(opt)
                     end
                 end
-                
-                return DropdownAPI
+                return API
             end
 
             -- ════════════════════════════════════════════════════════════
             -- TEXTBOX
             -- ════════════════════════════════════════════════════════════
             
-            function Section:CreateTextBox(textboxConfig)
-                textboxConfig = textboxConfig or {}
-                local textboxName = textboxConfig.Name or "TextBox"
-                local textboxIcon = textboxConfig.Icon or ""
-                local placeholder = textboxConfig.Placeholder or "Enter text..."
-                local default = textboxConfig.Default or ""
-                local callback = textboxConfig.Callback or function() end
+            function Section:CreateTextBox(cfg)
+                cfg = cfg or {}
+                local name = cfg.Name or "TextBox"
+                local icon = cfg.Icon or ""
+                local placeholder = cfg.Placeholder or "Enter text..."
+                local default = cfg.Default or ""
+                local callback = cfg.Callback or function() end
                 
-                local TextBoxFrame = Create("Frame", {
-                    Name = textboxName,
+                local Frame = Create("Frame", {
                     Size = UDim2.new(1, 0, 0, 38),
                     BackgroundColor3 = Theme.Background,
                     BorderSizePixel = 0,
                     Parent = SectionContent
                 })
-                AddCorner(TextBoxFrame, 6)
-                AddStroke(TextBoxFrame, Theme.Divider, 1, 0.5)
+                AddCorner(Frame, 6)
+                local frameStroke = AddStroke(Frame, Theme.Divider, 1)
+                frameStroke.Transparency = 0.5
+                RegisterThemeObject(Frame, "BackgroundColor3", "Background")
+                RegisterThemeObject(frameStroke, "Color", "Divider")
                 
-                local displayText = textboxIcon ~= "" and (textboxIcon .. "  " .. textboxName) or textboxName
-                
-                local TextBoxLabel = Create("TextLabel", {
-                    Name = "Label",
+                local displayText = icon ~= "" and (icon .. "  " .. name) or name
+                local Label = Create("TextLabel", {
                     Size = UDim2.new(0.4, -10, 1, 0),
                     Position = UDim2.new(0, 12, 0, 0),
                     BackgroundTransparency = 1,
@@ -1279,11 +1070,11 @@ function VogueLib:CreateWindow(config)
                     TextSize = 12,
                     Font = Enum.Font.Gotham,
                     TextXAlignment = Enum.TextXAlignment.Left,
-                    Parent = TextBoxFrame
+                    Parent = Frame
                 })
+                RegisterThemeObject(Label, "TextColor3", "Text")
                 
-                local TextBox = Create("TextBox", {
-                    Name = "Input",
+                local Input = Create("TextBox", {
                     Size = UDim2.new(0.6, -20, 0, 26),
                     Position = UDim2.new(0.4, 0, 0.5, -13),
                     BackgroundColor3 = Theme.Tertiary,
@@ -1295,113 +1086,68 @@ function VogueLib:CreateWindow(config)
                     TextSize = 11,
                     Font = Enum.Font.Gotham,
                     ClearTextOnFocus = false,
-                    Parent = TextBoxFrame
+                    Parent = Frame
                 })
-                AddCorner(TextBox, 4)
-                local textBoxStroke = AddStroke(TextBox, Theme.Divider, 1, 0.5)
+                AddCorner(Input, 4)
+                local inputStroke = AddStroke(Input, Theme.Divider, 1)
+                inputStroke.Transparency = 0.5
+                AddPadding(Input, 0, 0, 10, 10)
+                RegisterThemeObject(Input, "BackgroundColor3", "Tertiary")
+                RegisterThemeObject(Input, "TextColor3", "Text")
+                RegisterThemeObject(Input, "PlaceholderColor3", "TextMuted")
+                RegisterThemeObject(inputStroke, "Color", "Divider")
                 
-                local TextBoxPadding = Create("UIPadding", {
-                    PaddingLeft = UDim.new(0, 10),
-                    PaddingRight = UDim.new(0, 10),
-                    Parent = TextBox
-                })
-                
-                TextBox.Focused:Connect(function()
-                    Tween(TextBox, {BackgroundColor3 = Theme.Secondary}, 0.2)
-                    Tween(textBoxStroke, {Color = Theme.Accent, Transparency = 0}, 0.2)
+                Input.Focused:Connect(function()
+                    Tween(Input, {BackgroundColor3 = Theme.Secondary}, 0.2)
+                    Tween(inputStroke, {Color = Theme.Accent, Transparency = 0}, 0.2)
+                end)
+                Input.FocusLost:Connect(function(enter)
+                    Tween(Input, {BackgroundColor3 = Theme.Tertiary}, 0.2)
+                    Tween(inputStroke, {Color = Theme.Divider, Transparency = 0.5}, 0.2)
+                    if enter then callback(Input.Text) end
                 end)
                 
-                TextBox.FocusLost:Connect(function(enterPressed)
-                    Tween(TextBox, {BackgroundColor3 = Theme.Tertiary}, 0.2)
-                    Tween(textBoxStroke, {Color = Theme.Divider, Transparency = 0.5}, 0.2)
-                    if enterPressed then
-                        callback(TextBox.Text)
-                    end
+                Frame.MouseEnter:Connect(function()
+                    Tween(Frame, {BackgroundColor3 = Theme.Tertiary}, 0.2)
+                end)
+                Frame.MouseLeave:Connect(function()
+                    Tween(Frame, {BackgroundColor3 = Theme.Background}, 0.2)
                 end)
                 
-                TextBoxFrame.MouseEnter:Connect(function()
-                    Tween(TextBoxFrame, {BackgroundColor3 = Theme.Tertiary}, 0.2)
-                end)
-                
-                TextBoxFrame.MouseLeave:Connect(function()
-                    Tween(TextBoxFrame, {BackgroundColor3 = Theme.Background}, 0.2)
-                end)
-                
-                local TextBoxAPI = {}
-                function TextBoxAPI:Set(value)
-                    TextBox.Text = value
-                end
-                function TextBoxAPI:Get()
-                    return TextBox.Text
-                end
-                
-                return TextBoxAPI
-            end
-            
-            -- ════════════════════════════════════════════════════════════
-            -- LABEL
-            -- ════════════════════════════════════════════════════════════
-            
-            function Section:CreateLabel(labelText)
-                local LabelFrame = Create("Frame", {
-                    Name = "Label",
-                    Size = UDim2.new(1, 0, 0, 28),
-                    BackgroundTransparency = 1,
-                    Parent = SectionContent
-                })
-                
-                local Label = Create("TextLabel", {
-                    Name = "Text",
-                    Size = UDim2.new(1, 0, 1, 0),
-                    BackgroundTransparency = 1,
-                    Text = labelText or "Label",
-                    TextColor3 = Theme.TextDark,
-                    TextSize = 11,
-                    Font = Enum.Font.Gotham,
-                    TextXAlignment = Enum.TextXAlignment.Left,
-                    TextWrapped = true,
-                    Parent = LabelFrame
-                })
-                
-                local LabelAPI = {}
-                function LabelAPI:Set(text)
-                    Label.Text = text
-                end
-                function LabelAPI:Get()
-                    return Label.Text
-                end
-                
-                return LabelAPI
+                local API = {}
+                function API:Set(v) Input.Text = v end
+                function API:Get() return Input.Text end
+                return API
             end
             
             -- ════════════════════════════════════════════════════════════
             -- KEYBIND
             -- ════════════════════════════════════════════════════════════
             
-            function Section:CreateKeybind(keybindConfig)
-                keybindConfig = keybindConfig or {}
-                local keybindName = keybindConfig.Name or "Keybind"
-                local keybindIcon = keybindConfig.Icon or ""
-                local default = keybindConfig.Default or Enum.KeyCode.Unknown
-                local callback = keybindConfig.Callback or function() end
+            function Section:CreateKeybind(cfg)
+                cfg = cfg or {}
+                local name = cfg.Name or "Keybind"
+                local icon = cfg.Icon or ""
+                local default = cfg.Default or Enum.KeyCode.Unknown
+                local callback = cfg.Callback or function() end
                 
                 local CurrentKey = default
                 local Listening = false
                 
-                local KeybindFrame = Create("Frame", {
-                    Name = keybindName,
+                local Frame = Create("Frame", {
                     Size = UDim2.new(1, 0, 0, 38),
                     BackgroundColor3 = Theme.Background,
                     BorderSizePixel = 0,
                     Parent = SectionContent
                 })
-                AddCorner(KeybindFrame, 6)
-                AddStroke(KeybindFrame, Theme.Divider, 1, 0.5)
+                AddCorner(Frame, 6)
+                local frameStroke = AddStroke(Frame, Theme.Divider, 1)
+                frameStroke.Transparency = 0.5
+                RegisterThemeObject(Frame, "BackgroundColor3", "Background")
+                RegisterThemeObject(frameStroke, "Color", "Divider")
                 
-                local displayText = keybindIcon ~= "" and (keybindIcon .. "  " .. keybindName) or keybindName
-                
-                local KeybindLabel = Create("TextLabel", {
-                    Name = "Label",
+                local displayText = icon ~= "" and (icon .. "  " .. name) or name
+                local Label = Create("TextLabel", {
                     Size = UDim2.new(1, -85, 1, 0),
                     Position = UDim2.new(0, 12, 0, 0),
                     BackgroundTransparency = 1,
@@ -1410,11 +1156,11 @@ function VogueLib:CreateWindow(config)
                     TextSize = 12,
                     Font = Enum.Font.Gotham,
                     TextXAlignment = Enum.TextXAlignment.Left,
-                    Parent = KeybindFrame
+                    Parent = Frame
                 })
+                RegisterThemeObject(Label, "TextColor3", "Text")
                 
-                local KeybindButton = Create("TextButton", {
-                    Name = "Button",
+                local KeyBtn = Create("TextButton", {
                     Size = UDim2.new(0, 65, 0, 26),
                     Position = UDim2.new(1, -75, 0.5, -13),
                     BackgroundColor3 = Theme.Tertiary,
@@ -1423,58 +1169,84 @@ function VogueLib:CreateWindow(config)
                     TextColor3 = Theme.Accent,
                     TextSize = 10,
                     Font = Enum.Font.GothamBold,
-                    Parent = KeybindFrame
+                    Parent = Frame
                 })
-                AddCorner(KeybindButton, 4)
-                local keybindStroke = AddStroke(KeybindButton, Theme.Divider, 1, 0.5)
+                AddCorner(KeyBtn, 4)
+                local keyStroke = AddStroke(KeyBtn, Theme.Divider, 1)
+                keyStroke.Transparency = 0.5
+                RegisterThemeObject(KeyBtn, "BackgroundColor3", "Tertiary")
+                RegisterThemeObject(KeyBtn, "TextColor3", "Accent")
+                RegisterThemeObject(keyStroke, "Color", "Divider")
                 
-                KeybindButton.MouseButton1Click:Connect(function()
+                KeyBtn.MouseButton1Click:Connect(function()
                     Listening = true
-                    KeybindButton.Text = "..."
-                    Tween(KeybindButton, {BackgroundColor3 = Theme.Accent}, 0.2)
-                    Tween(KeybindButton, {TextColor3 = Theme.Background}, 0.2)
-                    Tween(keybindStroke, {Color = Theme.Accent}, 0.2)
+                    KeyBtn.Text = "..."
+                    Tween(KeyBtn, {BackgroundColor3 = Theme.Accent, TextColor3 = Theme.Background}, 0.2)
                 end)
                 
-                local keybindInputConn = UserInputService.InputBegan:Connect(function(input, gameProcessed)
+                local keyConn = UserInputService.InputBegan:Connect(function(input, gpe)
                     if Listening then
                         if input.UserInputType == Enum.UserInputType.Keyboard then
                             if input.KeyCode == Enum.KeyCode.Escape then
                                 CurrentKey = Enum.KeyCode.Unknown
-                                KeybindButton.Text = "None"
+                                KeyBtn.Text = "None"
                             else
                                 CurrentKey = input.KeyCode
-                                KeybindButton.Text = CurrentKey.Name
+                                KeyBtn.Text = CurrentKey.Name
                             end
                             Listening = false
-                            Tween(KeybindButton, {BackgroundColor3 = Theme.Tertiary}, 0.2)
-                            Tween(KeybindButton, {TextColor3 = Theme.Accent}, 0.2)
-                            Tween(keybindStroke, {Color = Theme.Divider}, 0.2)
+                            Tween(KeyBtn, {BackgroundColor3 = Theme.Tertiary, TextColor3 = Theme.Accent}, 0.2)
                         end
-                    elseif input.KeyCode == CurrentKey and not gameProcessed and CurrentKey ~= Enum.KeyCode.Unknown then
+                    elseif input.KeyCode == CurrentKey and not gpe and CurrentKey ~= Enum.KeyCode.Unknown then
                         callback()
                     end
                 end)
-                table.insert(Window.Connections, keybindInputConn)
+                table.insert(Window.Connections, keyConn)
                 
-                KeybindFrame.MouseEnter:Connect(function()
-                    Tween(KeybindFrame, {BackgroundColor3 = Theme.Tertiary}, 0.2)
+                Frame.MouseEnter:Connect(function()
+                    Tween(Frame, {BackgroundColor3 = Theme.Tertiary}, 0.2)
+                end)
+                Frame.MouseLeave:Connect(function()
+                    Tween(Frame, {BackgroundColor3 = Theme.Background}, 0.2)
                 end)
                 
-                KeybindFrame.MouseLeave:Connect(function()
-                    Tween(KeybindFrame, {BackgroundColor3 = Theme.Background}, 0.2)
-                end)
-                
-                local KeybindAPI = {}
-                function KeybindAPI:Set(key)
-                    CurrentKey = key
-                    KeybindButton.Text = key == Enum.KeyCode.Unknown and "None" or key.Name
+                local API = {}
+                function API:Set(k)
+                    CurrentKey = k
+                    KeyBtn.Text = k == Enum.KeyCode.Unknown and "None" or k.Name
                 end
-                function KeybindAPI:Get()
-                    return CurrentKey
-                end
+                function API:Get() return CurrentKey end
+                return API
+            end
+            
+            -- ════════════════════════════════════════════════════════════
+            -- LABEL
+            -- ════════════════════════════════════════════════════════════
+            
+            function Section:CreateLabel(text)
+                local Frame = Create("Frame", {
+                    Size = UDim2.new(1, 0, 0, 28),
+                    BackgroundTransparency = 1,
+                    Parent = SectionContent
+                })
                 
-                return KeybindAPI
+                local Label = Create("TextLabel", {
+                    Size = UDim2.new(1, 0, 1, 0),
+                    BackgroundTransparency = 1,
+                    Text = text or "Label",
+                    TextColor3 = Theme.TextDark,
+                    TextSize = 11,
+                    Font = Enum.Font.Gotham,
+                    TextXAlignment = Enum.TextXAlignment.Left,
+                    TextWrapped = true,
+                    Parent = Frame
+                })
+                RegisterThemeObject(Label, "TextColor3", "TextDark")
+                
+                local API = {}
+                function API:Set(t) Label.Text = t end
+                function API:Get() return Label.Text end
+                return API
             end
             
             -- ════════════════════════════════════════════════════════════
@@ -1482,53 +1254,52 @@ function VogueLib:CreateWindow(config)
             -- ════════════════════════════════════════════════════════════
             
             function Section:CreateSeparator()
-                local SeparatorFrame = Create("Frame", {
-                    Name = "Separator",
+                local Frame = Create("Frame", {
                     Size = UDim2.new(1, 0, 0, 15),
                     BackgroundTransparency = 1,
                     Parent = SectionContent
                 })
                 
-                local SeparatorLine = Create("Frame", {
-                    Name = "Line",
+                local Line = Create("Frame", {
                     Size = UDim2.new(1, 0, 0, 1),
                     Position = UDim2.new(0, 0, 0.5, 0),
                     BackgroundColor3 = Theme.Divider,
                     BackgroundTransparency = 0.5,
                     BorderSizePixel = 0,
-                    Parent = SeparatorFrame
+                    Parent = Frame
                 })
+                RegisterThemeObject(Line, "BackgroundColor3", "Divider")
                 
-                return SeparatorFrame
+                return Frame
             end
 
             -- ════════════════════════════════════════════════════════════
             -- PROGRESS BAR
             -- ════════════════════════════════════════════════════════════
             
-            function Section:CreateProgressBar(progressConfig)
-                progressConfig = progressConfig or {}
-                local progressName = progressConfig.Name or "Progress"
-                local progressIcon = progressConfig.Icon or ""
-                local default = progressConfig.Default or 0
-                local max = progressConfig.Max or 100
+            function Section:CreateProgressBar(cfg)
+                cfg = cfg or {}
+                local name = cfg.Name or "Progress"
+                local icon = cfg.Icon or ""
+                local default = cfg.Default or 0
+                local max = cfg.Max or 100
                 
                 local Value = default
                 
-                local ProgressFrame = Create("Frame", {
-                    Name = progressName,
+                local Frame = Create("Frame", {
                     Size = UDim2.new(1, 0, 0, 50),
                     BackgroundColor3 = Theme.Background,
                     BorderSizePixel = 0,
                     Parent = SectionContent
                 })
-                AddCorner(ProgressFrame, 6)
-                AddStroke(ProgressFrame, Theme.Divider, 1, 0.5)
+                AddCorner(Frame, 6)
+                local frameStroke = AddStroke(Frame, Theme.Divider, 1)
+                frameStroke.Transparency = 0.5
+                RegisterThemeObject(Frame, "BackgroundColor3", "Background")
+                RegisterThemeObject(frameStroke, "Color", "Divider")
                 
-                local displayText = progressIcon ~= "" and (progressIcon .. "  " .. progressName) or progressName
-                
-                local ProgressLabel = Create("TextLabel", {
-                    Name = "Label",
+                local displayText = icon ~= "" and (icon .. "  " .. name) or name
+                local Label = Create("TextLabel", {
                     Size = UDim2.new(1, -60, 0, 20),
                     Position = UDim2.new(0, 12, 0, 8),
                     BackgroundTransparency = 1,
@@ -1537,118 +1308,70 @@ function VogueLib:CreateWindow(config)
                     TextSize = 12,
                     Font = Enum.Font.Gotham,
                     TextXAlignment = Enum.TextXAlignment.Left,
-                    Parent = ProgressFrame
+                    Parent = Frame
                 })
+                RegisterThemeObject(Label, "TextColor3", "Text")
                 
-                local ProgressValue = Create("TextLabel", {
-                    Name = "Value",
+                local ValueLabel = Create("TextLabel", {
                     Size = UDim2.new(0, 50, 0, 20),
                     Position = UDim2.new(1, -58, 0, 8),
                     BackgroundTransparency = 1,
-                    Text = tostring(math.floor(Value / max * 100)) .. "%",
+                    Text = math.floor(Value / max * 100) .. "%",
                     TextColor3 = Theme.Accent,
                     TextSize = 11,
                     Font = Enum.Font.GothamBold,
                     TextXAlignment = Enum.TextXAlignment.Right,
-                    Parent = ProgressFrame
+                    Parent = Frame
                 })
+                RegisterThemeObject(ValueLabel, "TextColor3", "Accent")
                 
-                local ProgressBar = Create("Frame", {
-                    Name = "Bar",
+                local Bar = Create("Frame", {
                     Size = UDim2.new(1, -24, 0, 8),
                     Position = UDim2.new(0, 12, 0, 34),
                     BackgroundColor3 = Theme.Tertiary,
                     BorderSizePixel = 0,
-                    Parent = ProgressFrame
+                    Parent = Frame
                 })
-                AddCorner(ProgressBar, 4)
+                AddCorner(Bar, 4)
+                RegisterThemeObject(Bar, "BackgroundColor3", "Tertiary")
                 
-                local ProgressFill = Create("Frame", {
-                    Name = "Fill",
+                local Fill = Create("Frame", {
                     Size = UDim2.new(Value / max, 0, 1, 0),
                     BackgroundColor3 = Theme.Accent,
                     BorderSizePixel = 0,
-                    Parent = ProgressBar
+                    Parent = Bar
                 })
-                AddCorner(ProgressFill, 4)
-                AddGradient(ProgressFill, Theme.GradientStart, Theme.GradientEnd, 0)
+                AddCorner(Fill, 4)
+                RegisterThemeObject(Fill, "BackgroundColor3", "Accent")
                 
-                local ProgressAPI = {}
-                function ProgressAPI:Set(value)
-                    Value = math.clamp(value, 0, max)
-                    local percent = Value / max
-                    ProgressValue.Text = tostring(math.floor(percent * 100)) .. "%"
-                    Tween(ProgressFill, {Size = UDim2.new(percent, 0, 1, 0)}, 0.3)
+                local API = {}
+                function API:Set(v)
+                    Value = math.clamp(v, 0, max)
+                    ValueLabel.Text = math.floor(Value / max * 100) .. "%"
+                    Tween(Fill, {Size = UDim2.new(Value / max, 0, 1, 0)}, 0.3)
                 end
-                function ProgressAPI:Get()
-                    return Value
-                end
-                function ProgressAPI:Increment(amount)
-                    ProgressAPI:Set(Value + (amount or 1))
-                end
-                
-                return ProgressAPI
+                function API:Get() return Value end
+                function API:Increment(a) API:Set(Value + (a or 1)) end
+                return API
             end
             
             -- ════════════════════════════════════════════════════════════
-            -- IMAGE
+            -- COLOR PICKER
             -- ════════════════════════════════════════════════════════════
             
-            function Section:CreateImage(imageConfig)
-                imageConfig = imageConfig or {}
-                local imageName = imageConfig.Name or "Image"
-                local imageId = imageConfig.Image or ""
-                local imageSize = imageConfig.Size or UDim2.new(1, 0, 0, 100)
-                
-                local ImageFrame = Create("Frame", {
-                    Name = imageName,
-                    Size = UDim2.new(1, 0, 0, imageSize.Y.Offset + 10),
-                    BackgroundColor3 = Theme.Background,
-                    BorderSizePixel = 0,
-                    Parent = SectionContent
-                })
-                AddCorner(ImageFrame, 6)
-                AddStroke(ImageFrame, Theme.Divider, 1, 0.5)
-                
-                local Image = Create("ImageLabel", {
-                    Name = "Image",
-                    Size = UDim2.new(1, -20, 0, imageSize.Y.Offset),
-                    Position = UDim2.new(0, 10, 0, 5),
-                    BackgroundTransparency = 1,
-                    Image = imageId,
-                    ScaleType = Enum.ScaleType.Fit,
-                    Parent = ImageFrame
-                })
-                AddCorner(Image, 4)
-                
-                local ImageAPI = {}
-                function ImageAPI:Set(newImageId)
-                    Image.Image = newImageId
-                end
-                function ImageAPI:Get()
-                    return Image.Image
-                end
-                
-                return ImageAPI
-            end
-
-            -- ════════════════════════════════════════════════════════════
-            -- COLOR PICKER (FIXED)
-            -- ════════════════════════════════════════════════════════════
-            
-            function Section:CreateColorPicker(colorConfig)
-                colorConfig = colorConfig or {}
-                local colorName = colorConfig.Name or "Color"
-                local colorIcon = colorConfig.Icon or ""
-                local default = colorConfig.Default or Color3.fromRGB(255, 255, 255)
-                local callback = colorConfig.Callback or function() end
+            function Section:CreateColorPicker(cfg)
+                cfg = cfg or {}
+                local name = cfg.Name or "Color"
+                local icon = cfg.Icon or ""
+                local default = cfg.Default or Color3.new(1, 1, 1)
+                local callback = cfg.Callback or function() end
                 
                 local CurrentColor = default
                 local Opened = false
                 local H, S, V = Color3.toHSV(default)
+                local SVDrag, HueDrag = false, false
                 
-                local ColorFrame = Create("Frame", {
-                    Name = colorName,
+                local Frame = Create("Frame", {
                     Size = UDim2.new(1, 0, 0, 38),
                     BackgroundColor3 = Theme.Background,
                     BorderSizePixel = 0,
@@ -1656,22 +1379,22 @@ function VogueLib:CreateWindow(config)
                     ZIndex = 3,
                     Parent = SectionContent
                 })
-                AddCorner(ColorFrame, 6)
-                AddStroke(ColorFrame, Theme.Divider, 1, 0.5)
+                AddCorner(Frame, 6)
+                local frameStroke = AddStroke(Frame, Theme.Divider, 1)
+                frameStroke.Transparency = 0.5
+                RegisterThemeObject(Frame, "BackgroundColor3", "Background")
+                RegisterThemeObject(frameStroke, "Color", "Divider")
                 
-                local ColorHeader = Create("TextButton", {
-                    Name = "Header",
+                local Header = Create("TextButton", {
                     Size = UDim2.new(1, 0, 0, 38),
                     BackgroundTransparency = 1,
                     Text = "",
                     ZIndex = 3,
-                    Parent = ColorFrame
+                    Parent = Frame
                 })
                 
-                local displayText = colorIcon ~= "" and (colorIcon .. "  " .. colorName) or colorName
-                
-                local ColorLabel = Create("TextLabel", {
-                    Name = "Label",
+                local displayText = icon ~= "" and (icon .. "  " .. name) or name
+                local Label = Create("TextLabel", {
                     Size = UDim2.new(1, -60, 1, 0),
                     Position = UDim2.new(0, 12, 0, 0),
                     BackgroundTransparency = 1,
@@ -1681,46 +1404,40 @@ function VogueLib:CreateWindow(config)
                     Font = Enum.Font.Gotham,
                     TextXAlignment = Enum.TextXAlignment.Left,
                     ZIndex = 3,
-                    Parent = ColorHeader
+                    Parent = Header
                 })
+                RegisterThemeObject(Label, "TextColor3", "Text")
                 
-                local ColorPreview = Create("Frame", {
-                    Name = "Preview",
+                local Preview = Create("Frame", {
                     Size = UDim2.new(0, 40, 0, 22),
                     Position = UDim2.new(1, -52, 0.5, -11),
                     BackgroundColor3 = CurrentColor,
                     BorderSizePixel = 0,
                     ZIndex = 3,
-                    Parent = ColorHeader
+                    Parent = Header
                 })
-                AddCorner(ColorPreview, 4)
-                AddStroke(ColorPreview, Theme.Divider, 1)
+                AddCorner(Preview, 4)
+                AddStroke(Preview, Theme.Divider, 1)
                 
-                -- Color picker content
-                local ColorContent = Create("Frame", {
-                    Name = "Content",
+                local Content = Create("Frame", {
                     Size = UDim2.new(1, -16, 0, 130),
                     Position = UDim2.new(0, 8, 0, 44),
                     BackgroundTransparency = 1,
                     ZIndex = 3,
-                    Parent = ColorFrame
+                    Parent = Frame
                 })
                 
-                -- Saturation/Value picker background (the hue color)
+                -- SV Picker
                 local SVPicker = Create("Frame", {
-                    Name = "SVPicker",
                     Size = UDim2.new(1, -40, 0, 100),
-                    Position = UDim2.new(0, 0, 0, 0),
                     BackgroundColor3 = Color3.fromHSV(H, 1, 1),
                     BorderSizePixel = 0,
                     ZIndex = 4,
-                    Parent = ColorContent
+                    Parent = Content
                 })
                 AddCorner(SVPicker, 4)
                 
-                -- White gradient (left to right)
                 local WhiteOverlay = Create("Frame", {
-                    Name = "WhiteOverlay",
                     Size = UDim2.new(1, 0, 1, 0),
                     BackgroundColor3 = Color3.new(1, 1, 1),
                     BorderSizePixel = 0,
@@ -1728,19 +1445,15 @@ function VogueLib:CreateWindow(config)
                     Parent = SVPicker
                 })
                 AddCorner(WhiteOverlay, 4)
-                
                 Create("UIGradient", {
                     Transparency = NumberSequence.new({
                         NumberSequenceKeypoint.new(0, 0),
                         NumberSequenceKeypoint.new(1, 1)
                     }),
-                    Rotation = 0,
                     Parent = WhiteOverlay
                 })
                 
-                -- Black gradient (top to bottom)
                 local BlackOverlay = Create("Frame", {
-                    Name = "BlackOverlay",
                     Size = UDim2.new(1, 0, 1, 0),
                     BackgroundColor3 = Color3.new(0, 0, 0),
                     BorderSizePixel = 0,
@@ -1748,7 +1461,6 @@ function VogueLib:CreateWindow(config)
                     Parent = SVPicker
                 })
                 AddCorner(BlackOverlay, 4)
-                
                 Create("UIGradient", {
                     Transparency = NumberSequence.new({
                         NumberSequenceKeypoint.new(0, 1),
@@ -1758,9 +1470,7 @@ function VogueLib:CreateWindow(config)
                     Parent = BlackOverlay
                 })
                 
-                -- Clickable area for SV picker (on top of everything)
-                local SVButton = Create("TextButton", {
-                    Name = "SVButton",
+                local SVBtn = Create("TextButton", {
                     Size = UDim2.new(1, 0, 1, 0),
                     BackgroundTransparency = 1,
                     Text = "",
@@ -1768,9 +1478,7 @@ function VogueLib:CreateWindow(config)
                     Parent = SVPicker
                 })
                 
-                -- SV Cursor
                 local SVCursor = Create("Frame", {
-                    Name = "Cursor",
                     Size = UDim2.new(0, 14, 0, 14),
                     Position = UDim2.new(S, -7, 1 - V, -7),
                     BackgroundColor3 = Color3.new(1, 1, 1),
@@ -1781,18 +1489,16 @@ function VogueLib:CreateWindow(config)
                 AddCorner(SVCursor, 7)
                 AddStroke(SVCursor, Color3.new(0, 0, 0), 2)
                 
-                -- Hue slider
+                -- Hue Slider
                 local HueSlider = Create("Frame", {
-                    Name = "HueSlider",
                     Size = UDim2.new(0, 25, 0, 100),
                     Position = UDim2.new(1, -25, 0, 0),
                     BackgroundColor3 = Color3.new(1, 1, 1),
                     BorderSizePixel = 0,
                     ZIndex = 4,
-                    Parent = ColorContent
+                    Parent = Content
                 })
                 AddCorner(HueSlider, 4)
-                
                 Create("UIGradient", {
                     Color = ColorSequence.new({
                         ColorSequenceKeypoint.new(0, Color3.fromHSV(0, 1, 1)),
@@ -1807,9 +1513,7 @@ function VogueLib:CreateWindow(config)
                     Parent = HueSlider
                 })
                 
-                -- Hue button
-                local HueButton = Create("TextButton", {
-                    Name = "HueButton",
+                local HueBtn = Create("TextButton", {
                     Size = UDim2.new(1, 0, 1, 0),
                     BackgroundTransparency = 1,
                     Text = "",
@@ -1817,9 +1521,7 @@ function VogueLib:CreateWindow(config)
                     Parent = HueSlider
                 })
                 
-                -- Hue cursor
                 local HueCursor = Create("Frame", {
-                    Name = "Cursor",
                     Size = UDim2.new(1, 4, 0, 6),
                     Position = UDim2.new(0, -2, H, -3),
                     BackgroundColor3 = Color3.new(1, 1, 1),
@@ -1830,9 +1532,7 @@ function VogueLib:CreateWindow(config)
                 AddCorner(HueCursor, 2)
                 AddStroke(HueCursor, Color3.new(0, 0, 0), 1)
                 
-                -- RGB display
                 local RGBLabel = Create("TextLabel", {
-                    Name = "RGB",
                     Size = UDim2.new(1, -40, 0, 20),
                     Position = UDim2.new(0, 0, 0, 108),
                     BackgroundTransparency = 1,
@@ -1842,15 +1542,13 @@ function VogueLib:CreateWindow(config)
                     Font = Enum.Font.Gotham,
                     TextXAlignment = Enum.TextXAlignment.Left,
                     ZIndex = 4,
-                    Parent = ColorContent
+                    Parent = Content
                 })
-                
-                local SVDragging = false
-                local HueDragging = false
+                RegisterThemeObject(RGBLabel, "TextColor3", "TextDark")
                 
                 local function UpdateColor()
                     CurrentColor = Color3.fromHSV(H, S, V)
-                    ColorPreview.BackgroundColor3 = CurrentColor
+                    Preview.BackgroundColor3 = CurrentColor
                     SVPicker.BackgroundColor3 = Color3.fromHSV(H, 1, 1)
                     SVCursor.Position = UDim2.new(S, -7, 1 - V, -7)
                     HueCursor.Position = UDim2.new(0, -2, H, -3)
@@ -1859,80 +1557,62 @@ function VogueLib:CreateWindow(config)
                 end
                 
                 local function UpdateSV(input)
-                    local relX = math.clamp((input.Position.X - SVPicker.AbsolutePosition.X) / SVPicker.AbsoluteSize.X, 0, 1)
-                    local relY = math.clamp((input.Position.Y - SVPicker.AbsolutePosition.Y) / SVPicker.AbsoluteSize.Y, 0, 1)
-                    S = relX
-                    V = 1 - relY
+                    S = math.clamp((input.Position.X - SVPicker.AbsolutePosition.X) / SVPicker.AbsoluteSize.X, 0, 1)
+                    V = 1 - math.clamp((input.Position.Y - SVPicker.AbsolutePosition.Y) / SVPicker.AbsoluteSize.Y, 0, 1)
                     UpdateColor()
                 end
                 
                 local function UpdateHue(input)
-                    local relY = math.clamp((input.Position.Y - HueSlider.AbsolutePosition.Y) / HueSlider.AbsoluteSize.Y, 0, 1)
-                    H = relY
+                    H = math.clamp((input.Position.Y - HueSlider.AbsolutePosition.Y) / HueSlider.AbsoluteSize.Y, 0, 1)
                     UpdateColor()
                 end
                 
-                SVButton.MouseButton1Down:Connect(function()
-                    SVDragging = true
+                SVBtn.MouseButton1Down:Connect(function()
+                    SVDrag = true
                     UpdateSV({Position = Vector3.new(Mouse.X, Mouse.Y, 0)})
                 end)
                 
-                HueButton.MouseButton1Down:Connect(function()
-                    HueDragging = true
+                HueBtn.MouseButton1Down:Connect(function()
+                    HueDrag = true
                     UpdateHue({Position = Vector3.new(Mouse.X, Mouse.Y, 0)})
                 end)
                 
-                local colorInputEndConn = UserInputService.InputEnded:Connect(function(input)
+                local colorEndConn = UserInputService.InputEnded:Connect(function(input)
                     if input.UserInputType == Enum.UserInputType.MouseButton1 then
-                        SVDragging = false
-                        HueDragging = false
+                        SVDrag = false
+                        HueDrag = false
                     end
                 end)
-                table.insert(Window.Connections, colorInputEndConn)
+                table.insert(Window.Connections, colorEndConn)
                 
-                local colorInputChangeConn = UserInputService.InputChanged:Connect(function(input)
+                local colorChangeConn = UserInputService.InputChanged:Connect(function(input)
                     if input.UserInputType == Enum.UserInputType.MouseMovement then
-                        if SVDragging then
-                            UpdateSV(input)
-                        elseif HueDragging then
-                            UpdateHue(input)
-                        end
+                        if SVDrag then UpdateSV(input) end
+                        if HueDrag then UpdateHue(input) end
                     end
                 end)
-                table.insert(Window.Connections, colorInputChangeConn)
+                table.insert(Window.Connections, colorChangeConn)
                 
-                ColorHeader.MouseButton1Click:Connect(function()
+                Header.MouseButton1Click:Connect(function()
                     Opened = not Opened
-                    if Opened then
-                        Tween(ColorFrame, {Size = UDim2.new(1, 0, 0, 185)}, 0.2, Enum.EasingStyle.Back)
-                    else
-                        Tween(ColorFrame, {Size = UDim2.new(1, 0, 0, 38)}, 0.2, Enum.EasingStyle.Back)
-                    end
+                    Tween(Frame, {Size = UDim2.new(1, 0, 0, Opened and 185 or 38)}, 0.2, Enum.EasingStyle.Back)
                 end)
                 
-                ColorHeader.MouseEnter:Connect(function()
-                    if not Opened then
-                        Tween(ColorFrame, {BackgroundColor3 = Theme.Tertiary}, 0.2)
-                    end
+                Header.MouseEnter:Connect(function()
+                    if not Opened then Tween(Frame, {BackgroundColor3 = Theme.Tertiary}, 0.2) end
+                end)
+                Header.MouseLeave:Connect(function()
+                    if not Opened then Tween(Frame, {BackgroundColor3 = Theme.Background}, 0.2) end
                 end)
                 
-                ColorHeader.MouseLeave:Connect(function()
-                    if not Opened then
-                        Tween(ColorFrame, {BackgroundColor3 = Theme.Background}, 0.2)
-                    end
-                end)
-                
-                local ColorAPI = {}
-                function ColorAPI:Set(color)
-                    CurrentColor = color
-                    H, S, V = Color3.toHSV(color)
+                local API = {}
+                function API:Set(c)
+                    CurrentColor = c
+                    H, S, V = Color3.toHSV(c)
                     UpdateColor()
                 end
-                function ColorAPI:Get()
-                    return CurrentColor
-                end
-                
-                return ColorAPI
+                function API:Get() return CurrentColor end
+                return API
             end
             
             return Section
@@ -1942,15 +1622,15 @@ function VogueLib:CreateWindow(config)
     end
 
     -- ════════════════════════════════════════════════════════════════════
-    -- NOTIFICATIONS (with stacking support)
+    -- NOTIFICATIONS
     -- ════════════════════════════════════════════════════════════════════
     
-    function Window:Notify(notifyConfig)
-        notifyConfig = notifyConfig or {}
-        local title = notifyConfig.Title or "Notification"
-        local content = notifyConfig.Content or ""
-        local duration = notifyConfig.Duration or 3
-        local notifyType = notifyConfig.Type or "info"
+    function Window:Notify(cfg)
+        cfg = cfg or {}
+        local title = cfg.Title or "Notification"
+        local content = cfg.Content or ""
+        local duration = cfg.Duration or 3
+        local nType = cfg.Type or "info"
         
         local typeColors = {
             info = Theme.Accent,
@@ -1958,15 +1638,16 @@ function VogueLib:CreateWindow(config)
             error = Theme.Error,
             warning = Theme.Warning
         }
-        local accentColor = typeColors[notifyType] or Theme.Accent
+        local accentColor = typeColors[nType] or Theme.Accent
         
-        local notifyIndex = #Window.Notifications + 1
-        local yOffset = 20 + (notifyIndex - 1) * 90
+        local icons = {info = "ℹ", success = "✓", error = "✕", warning = "⚠"}
+        
+        local idx = #Window.Notifications + 1
+        local yOff = 20 + (idx - 1) * 90
         
         local NotifyFrame = Create("Frame", {
-            Name = "Notify" .. notifyIndex,
             Size = UDim2.new(0, 300, 0, 0),
-            Position = UDim2.new(1, 20, 1, -yOffset),
+            Position = UDim2.new(1, 20, 1, -yOff),
             AnchorPoint = Vector2.new(0, 1),
             BackgroundColor3 = Theme.Background,
             BorderSizePixel = 0,
@@ -1975,15 +1656,15 @@ function VogueLib:CreateWindow(config)
             Parent = ScreenGui
         })
         AddCorner(NotifyFrame, 8)
-        AddStroke(NotifyFrame, accentColor, 1, 0.3)
+        local notifyStroke = AddStroke(NotifyFrame, accentColor, 1)
+        notifyStroke.Transparency = 0.3
         
-        local NotifyShadow = Create("ImageLabel", {
-            Name = "Shadow",
+        Create("ImageLabel", {
             Size = UDim2.new(1, 20, 1, 20),
             Position = UDim2.new(0, -10, 0, -10),
             BackgroundTransparency = 1,
             Image = "rbxassetid://5554236805",
-            ImageColor3 = Color3.fromRGB(0, 0, 0),
+            ImageColor3 = Color3.new(0, 0, 0),
             ImageTransparency = 0.6,
             ScaleType = Enum.ScaleType.Slice,
             SliceCenter = Rect.new(23, 23, 277, 277),
@@ -1992,7 +1673,6 @@ function VogueLib:CreateWindow(config)
         })
         
         local NotifyAccent = Create("Frame", {
-            Name = "Accent",
             Size = UDim2.new(0, 4, 1, -16),
             Position = UDim2.new(0, 8, 0, 8),
             BackgroundColor3 = accentColor,
@@ -2001,35 +1681,19 @@ function VogueLib:CreateWindow(config)
         })
         AddCorner(NotifyAccent, 2)
         
-        local NotifyPadding = Create("UIPadding", {
-            PaddingTop = UDim.new(0, 12),
-            PaddingBottom = UDim.new(0, 12),
-            PaddingLeft = UDim.new(0, 20),
-            PaddingRight = UDim.new(0, 15),
-            Parent = NotifyFrame
-        })
+        AddPadding(NotifyFrame, 12, 12, 20, 15)
         
-        local icons = {
-            info = "ℹ",
-            success = "✓",
-            error = "✕",
-            warning = "⚠"
-        }
-        
-        local NotifyIcon = Create("TextLabel", {
-            Name = "Icon",
+        Create("TextLabel", {
             Size = UDim2.new(0, 20, 0, 20),
-            Position = UDim2.new(0, 0, 0, 0),
             BackgroundTransparency = 1,
-            Text = icons[notifyType] or "ℹ",
+            Text = icons[nType] or "ℹ",
             TextColor3 = accentColor,
             TextSize = 14,
             Font = Enum.Font.GothamBold,
             Parent = NotifyFrame
         })
         
-        local NotifyTitle = Create("TextLabel", {
-            Name = "Title",
+        Create("TextLabel", {
             Size = UDim2.new(1, -30, 0, 18),
             Position = UDim2.new(0, 25, 0, 0),
             BackgroundTransparency = 1,
@@ -2041,8 +1705,7 @@ function VogueLib:CreateWindow(config)
             Parent = NotifyFrame
         })
         
-        local NotifyContent = Create("TextLabel", {
-            Name = "Content",
+        Create("TextLabel", {
             Size = UDim2.new(1, -30, 0, 0),
             Position = UDim2.new(0, 25, 0, 22),
             BackgroundTransparency = 1,
@@ -2056,8 +1719,7 @@ function VogueLib:CreateWindow(config)
             Parent = NotifyFrame
         })
         
-        local NotifyProgress = Create("Frame", {
-            Name = "Progress",
+        local ProgressBar = Create("Frame", {
             Size = UDim2.new(1, 0, 0, 3),
             Position = UDim2.new(0, 0, 1, 0),
             AnchorPoint = Vector2.new(0, 1),
@@ -2066,35 +1728,30 @@ function VogueLib:CreateWindow(config)
             Parent = NotifyFrame
         })
         
-        local NotifyProgressFill = Create("Frame", {
-            Name = "Fill",
+        local ProgressFill = Create("Frame", {
             Size = UDim2.new(1, 0, 1, 0),
             BackgroundColor3 = accentColor,
             BorderSizePixel = 0,
-            Parent = NotifyProgress
+            Parent = ProgressBar
         })
-        AddGradient(NotifyProgressFill, accentColor, Theme.AccentDark, 0)
         
         table.insert(Window.Notifications, NotifyFrame)
         
-        NotifyFrame.Position = UDim2.new(1, 20, 1, -yOffset)
-        Tween(NotifyFrame, {Position = UDim2.new(1, -320, 1, -yOffset)}, 0.4, Enum.EasingStyle.Back)
-        Tween(NotifyProgressFill, {Size = UDim2.new(0, 0, 1, 0)}, duration, Enum.EasingStyle.Linear)
+        Tween(NotifyFrame, {Position = UDim2.new(1, -320, 1, -yOff)}, 0.4, Enum.EasingStyle.Back)
+        Tween(ProgressFill, {Size = UDim2.new(0, 0, 1, 0)}, duration, Enum.EasingStyle.Linear)
         
         task.spawn(function()
             task.wait(duration)
-            Tween(NotifyFrame, {Position = UDim2.new(1, 20, 1, -yOffset)}, 0.3, Enum.EasingStyle.Back, Enum.EasingDirection.In)
+            Tween(NotifyFrame, {Position = UDim2.new(1, 20, 1, -yOff)}, 0.3, Enum.EasingStyle.Back, Enum.EasingDirection.In)
             task.wait(0.3)
             
-            local index = table.find(Window.Notifications, NotifyFrame)
-            if index then
-                table.remove(Window.Notifications, index)
-                for i, notif in ipairs(Window.Notifications) do
-                    local newYOffset = 20 + (i - 1) * 90
-                    Tween(notif, {Position = UDim2.new(1, -320, 1, -newYOffset)}, 0.2)
+            local i = table.find(Window.Notifications, NotifyFrame)
+            if i then
+                table.remove(Window.Notifications, i)
+                for j, n in ipairs(Window.Notifications) do
+                    Tween(n, {Position = UDim2.new(1, -320, 1, -(20 + (j - 1) * 90))}, 0.2)
                 end
             end
-            
             NotifyFrame:Destroy()
         end)
     end
@@ -2103,16 +1760,13 @@ function VogueLib:CreateWindow(config)
     -- WINDOW METHODS
     -- ════════════════════════════════════════════════════════════════════
     
-    local WindowVisible = true
+    local Visible = true
     
     function Window:Toggle()
-        WindowVisible = not WindowVisible
-        if WindowVisible then
+        Visible = not Visible
+        if Visible then
             MainFrame.Visible = true
-            Tween(MainFrame, {
-                Size = windowSize,
-                Position = UDim2.new(0.5, -windowSize.X.Offset/2, 0.5, -windowSize.Y.Offset/2)
-            }, 0.3, Enum.EasingStyle.Back)
+            Tween(MainFrame, {Size = windowSize, Position = UDim2.new(0.5, -windowSize.X.Offset/2, 0.5, -windowSize.Y.Offset/2)}, 0.3, Enum.EasingStyle.Back)
         else
             Tween(MainFrame, {Size = UDim2.new(0, 0, 0, 0), Position = UDim2.new(0.5, 0, 0.5, 0)}, 0.3)
             task.wait(0.3)
@@ -2121,40 +1775,26 @@ function VogueLib:CreateWindow(config)
     end
     
     function Window:Show()
-        if not WindowVisible then
-            Window:Toggle()
-        end
+        if not Visible then Window:Toggle() end
     end
     
     function Window:Hide()
-        if WindowVisible then
-            Window:Toggle()
-        end
+        if Visible then Window:Toggle() end
     end
     
     function Window:Destroy()
-        for _, conn in pairs(Window.Connections) do
-            if conn then conn:Disconnect() end
+        for _, c in pairs(Window.Connections) do
+            if c then c:Disconnect() end
         end
         ScreenGui:Destroy()
     end
     
-    -- ════════════════════════════════════════════════════════════════════
-    -- WINDOW APPEARANCE ANIMATION
-    -- ════════════════════════════════════════════════════════════════════
-    
+    -- Opening animation
     MainFrame.Size = UDim2.new(0, 0, 0, 0)
     MainFrame.Position = UDim2.new(0.5, 0, 0.5, 0)
-    Tween(MainFrame, {
-        Size = windowSize, 
-        Position = UDim2.new(0.5, -windowSize.X.Offset/2, 0.5, -windowSize.Y.Offset/2)
-    }, 0.5, Enum.EasingStyle.Back)
+    Tween(MainFrame, {Size = windowSize, Position = UDim2.new(0.5, -windowSize.X.Offset/2, 0.5, -windowSize.Y.Offset/2)}, 0.5, Enum.EasingStyle.Back)
     
     return Window
 end
-
--- ════════════════════════════════════════════════════════════════════════
--- MODULE EXPORT
--- ════════════════════════════════════════════════════════════════════════
 
 return VogueLib
