@@ -3,7 +3,7 @@
     Demonstration of all library features v2.0.0
 ]]
 
-local VogueLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/yourusername/vogue-hub-ui/main/src/init.lua"))()
+local VogueLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/Alinovk/vogue-hub-ui/main/src/init.lua"))()
 
 local Window = VogueLib:CreateWindow({
     Title = "VOGUE HUB SHOWCASE",
@@ -317,3 +317,4 @@ Window:Notify({
     Duration = 4,
     Type = "success"
 })
+
