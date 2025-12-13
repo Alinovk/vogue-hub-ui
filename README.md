@@ -214,7 +214,7 @@ If you liked the library, give it a ⭐ on GitHub!
 
 ## 🔄 Changelog
 
-### v2.0.0 (2024-XX-XX)
+### v2.0.0 (2025-12-13)
 - ✨ Theme system with 5 built-in themes
 - 🎨 Visual enhancements (gradients, glow, ripples)
 - 🆕 New components (ColorPicker, ProgressBar, Separator, Image)
@@ -241,3 +241,4 @@ Made with ❤️ for the Roblox community
 [⬆ Back to Top](#-vogue-hub-ui-library)
 
 </div>
+
