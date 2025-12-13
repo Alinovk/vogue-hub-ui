@@ -1,50 +1,56 @@
 --[[
     BASIC EXAMPLE
-    Простой пример использования VOGUE HUB UI Library
+    Simple example of using VOGUE HUB UI Library v2.0.0
 ]]
 
--- Загрузка библиотеки
+-- Load library
 local VogueLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/yourusername/vogue-hub-ui/main/src/init.lua"))()
 
--- Создание окна
+-- Create window
 local Window = VogueLib:CreateWindow({
     Title = "BASIC EXAMPLE",
-    Size = UDim2.new(0, 500, 0, 350)
+    Size = UDim2.new(0, 500, 0, 350),
+    Theme = "Dark"
 })
 
--- Создание таба
+-- Create tab with icon
 local MainTab = Window:CreateTab({
-    Name = "Main"
+    Name = "Main",
+    Icon = "🏠"
 })
 
--- Создание секции
+-- Create section
 local Section = MainTab:CreateSection("Simple Elements")
 
--- Кнопка
+-- Button with ripple effect
 Section:CreateButton({
     Name = "Print Message",
+    Icon = "📝",
     Callback = function()
         print("Hello from VOGUE HUB!")
         Window:Notify({
             Title = "Button",
             Content = "Message printed to console!",
-            Duration = 2
+            Duration = 2,
+            Type = "success"
         })
     end
 })
 
--- Toggle
+-- Toggle with glow
 Section:CreateToggle({
     Name = "Enable Feature",
+    Icon = "⚡",
     Default = false,
     Callback = function(Value)
         print("Toggle state:", Value)
     end
 })
 
--- Slider
+-- Slider with knob
 Section:CreateSlider({
     Name = "Value",
+    Icon = "📊",
     Min = 0,
     Max = 100,
     Default = 50,
@@ -53,12 +59,16 @@ Section:CreateSlider({
     end
 })
 
+-- Separator
+Section:CreateSeparator()
+
 -- Label
 Section:CreateLabel("This is a simple label")
 
--- Приветственное уведомление
+-- Welcome notification
 Window:Notify({
     Title = "Welcome",
     Content = "Basic example loaded successfully!",
-    Duration = 3
+    Duration = 3,
+    Type = "info"
 })
